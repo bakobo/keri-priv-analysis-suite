@@ -1,0 +1,430 @@
+# The scored generator baseline: sixteen citizens with four copies each, presented to four
+# verifiers, scored for the parties in docs/scenario-proposal.md. The stack settings model a
+# custodial issuer that keeps one registry per credential, allocates registries first in first out,
+# issues a citizen's copies together and stamps exact TEL `dt` values. The pharmacy is shown county
+# alone, because no credential field carries veteran status.
+
+[run]
+seed = 20261117
+adapter = "generator"
+confidence_cut = 1.0
+
+[population]
+size = 3500000
+seed = 1
+homes = 4
+home_assignment = "uniform"
+
+[[population.attribute]]
+name = "age-band"
+values = ["18-20", "21-29", "30-44", "45-64", "65+"]
+probabilities = [0.06, 0.18, 0.28, 0.31, 0.17]
+sensitive = false
+
+[[population.attribute]]
+name = "county"
+values = ["county-a", "county-b", "county-c", "county-d", "other"]
+probabilities = [0.36, 0.2, 0.11, 0.08, 0.25]
+sensitive = false
+
+[[population.attribute]]
+name = "veteran"
+values = ["no", "yes"]
+probabilities = [0.93, 0.07]
+sensitive = true
+
+[[population.correlation]]
+a = "age-band"
+b = "veteran"
+rho = 0.3
+
+[citizens]
+count = 16
+copies = 4
+issuance_period = 2592000.0
+copy_interval = 0.004
+
+[[domain]]
+name = "alcohol"
+mandatory = true
+
+[[domain]]
+name = "pharmacy"
+mandatory = false
+
+
+[[verifier]]
+id = "liquor-store"
+
+[[verifier]]
+id = "pharmacy"
+
+[[verifier]]
+id = "bar"
+
+[[verifier]]
+id = "clinic"
+
+[[presentation]]
+verifier = "liquor-store"
+domain = "alcohol"
+disclose = ["age-band"]
+per_citizen = 1
+start = 2678400.0
+end = 5184000.0
+
+[[presentation]]
+verifier = "pharmacy"
+domain = "pharmacy"
+disclose = ["county"]
+per_citizen = 1
+start = 2678400.0
+end = 5184000.0
+
+[[presentation]]
+verifier = "bar"
+domain = "alcohol"
+disclose = ["age-band"]
+per_citizen = 1
+start = 2678400.0
+end = 5184000.0
+
+[[presentation]]
+verifier = "clinic"
+domain = "pharmacy"
+disclose = ["county"]
+per_citizen = 1
+start = 2678400.0
+end = 5184000.0
+
+[stack]
+registry_scope = "credential"
+registry_allocation = "fifo"
+issuance_order = "per-citizen"
+dt_granularity = 0.0
+tel_updates = "upd"
+status_updates = "none"
+batch_size = 4
+batch_mix = "citizen"
+publication_window = 0.0
+holder_network = "direct"
+holder_status_reads = false
+hosted_agents = "none"
+verifier_probing = false
+identity_oracle = false
+sealed_revocation_map = false
+decoys = 0
+log_join_material = false
+holder_aids = "transferable"
+holder_witnesses = "pool"
+copy_template = "fresh"
+first_seen = "exact"
+anchor_order = "issuance"
+
+[stack.retention]
+public = inf
+verifier = inf
+issuing-home = inf
+orchestrator = inf
+operation-log = inf
+revocation-authority = inf
+identity-proofing = inf
+access-log = inf
+
+[[party]]
+name = "two-verifiers"
+kind = "colluding-verifier"
+compartments = ["public", "verifier:liquor-store", "verifier:pharmacy"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "two-verifiers-terms"
+kind = "colluding-verifier"
+compartments = ["public", "verifier:liquor-store", "verifier:pharmacy"]
+obtains_at = 5184000.0
+terms = ["verifier:liquor-store", "verifier:pharmacy"]
+context_bits = 0.0
+
+[[party]]
+name = "many-verifiers"
+kind = "colluding-verifier"
+compartments = ["public", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "many-verifiers-terms"
+kind = "colluding-verifier"
+compartments = ["public", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = ["verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+context_bits = 0.0
+
+[[party]]
+name = "one-home-hacker"
+kind = "hacker"
+compartments = ["public", "issuing-home:0"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "all-homes-hacker"
+kind = "hacker"
+compartments = ["public", "issuing-home:0", "issuing-home:1", "issuing-home:2", "issuing-home:3"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "one-home-with-verifiers"
+kind = "hacker"
+compartments = ["public", "issuing-home:0", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "all-homes-with-verifiers"
+kind = "hacker"
+compartments = ["public", "issuing-home:0", "issuing-home:1", "issuing-home:2", "issuing-home:3", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "revocation-insider"
+kind = "insider"
+compartments = ["public", "revocation-authority"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "revocation-insider-with-verifiers"
+kind = "insider"
+compartments = ["public", "revocation-authority", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "registrar-insider"
+kind = "insider"
+compartments = ["public", "access-log:registrar"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "registrar-insider-with-verifiers"
+kind = "insider"
+compartments = ["public", "access-log:registrar", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "observer-insider"
+kind = "insider"
+compartments = ["public", "access-log:observer"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "observer-insider-with-verifiers"
+kind = "insider"
+compartments = ["public", "access-log:observer", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "compelled-home"
+kind = "government"
+compartments = ["public", "issuing-home:0"]
+obtains_at = 315360000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "compelled-home-with-verifiers"
+kind = "government"
+compartments = ["public", "issuing-home:0", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 315360000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "registrar-observer-network"
+kind = "network-observer"
+compartments = ["public", "access-log:registrar", "access-log:observer"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "registrar-observer-with-verifiers"
+kind = "network-observer"
+compartments = ["public", "access-log:registrar", "access-log:observer", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "hosted-agent-network"
+kind = "network-observer"
+compartments = ["public", "access-log:hosted-agent"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "hosted-agent-with-verifiers"
+kind = "network-observer"
+compartments = ["public", "access-log:hosted-agent", "verifier:liquor-store", "verifier:pharmacy", "verifier:bar", "verifier:clinic"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[claim]]
+party = "two-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "two-verifiers-terms"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "two-verifiers-terms"
+metric = "breach_reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "many-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "many-verifiers"
+metric = "flagged_domains"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "many-verifiers-terms"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "many-verifiers-terms"
+metric = "flagged_domains"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "many-verifiers-terms"
+metric = "breach_reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "one-home-hacker"
+metric = "identity_exposed"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "all-homes-hacker"
+metric = "identity_exposed"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "one-home-with-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "all-homes-with-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "all-homes-with-verifiers"
+metric = "flagged_domains"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "revocation-insider"
+metric = "identity_exposed"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "revocation-insider-with-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "registrar-insider-with-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "observer-insider-with-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "compelled-home"
+metric = "identity_exposed"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "compelled-home-with-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "registrar-observer-with-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "registrar-observer-with-verifiers"
+metric = "flagged_domains"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "hosted-agent-with-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "hosted-agent-with-verifiers"
+metric = "flagged_domains"
+op = "<="
+threshold = 0.0

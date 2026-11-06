@@ -1,0 +1,3790 @@
+{
+ "claims": [
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "two-verifiers",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "two-verifiers-terms",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "measured": 0,
+   "metric": "breach_reidentified",
+   "op": "<=",
+   "party": "two-verifiers-terms",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "many-verifiers",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "agent-end-role",
+     "cause": "the generator's stack settings hosted_agents = 'per-citizen', holder_aids = 'transferable'",
+     "owner": "the hosted-agent operator: an agent per holder AID, or end roles verifiers never store"
+    },
+    {
+     "attack": "kel-anchor-adjacency",
+     "cause": "the generator's stack settings issuance_order = 'per-citizen', decoys = 0",
+     "owner": "the issuer and any orchestrator: mix issuance order across citizens"
+    },
+    {
+     "attack": "kel-first-seen",
+     "cause": "the generator's stack settings first_seen = 'exact', issuance_order = 'per-citizen'",
+     "owner": "the issuer and the holder's wallet: the first-seen times a published KEL replay carries"
+    },
+    {
+     "attack": "registry-inception-adjacency",
+     "cause": "the generator's stack settings registry_allocation = 'fifo', issuance_order = 'per-citizen'",
+     "owner": "the issuer: random registry allocation"
+    },
+    {
+     "attack": "timestamp-clustering",
+     "cause": "the generator's stack settings dt_granularity = 0.0, issuance_order = 'per-citizen'",
+     "owner": "the issuer, any orchestrator and batch commitment: coarse dt"
+    }
+   ],
+   "measured": 2,
+   "metric": "flagged_domains",
+   "op": "<=",
+   "party": "many-verifiers",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "many-verifiers-terms",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "measured": 0,
+   "metric": "flagged_domains",
+   "op": "<=",
+   "party": "many-verifiers-terms",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "measured": 0,
+   "metric": "breach_reidentified",
+   "op": "<=",
+   "party": "many-verifiers-terms",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "custodial-join",
+     "cause": "the generator's stack settings sealed_revocation_map = False, identity_oracle = False",
+     "owner": "the issuing home: the pool table and the revocation map"
+    }
+   ],
+   "measured": 1,
+   "metric": "identity_exposed",
+   "op": "<=",
+   "party": "one-home-hacker",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "custodial-join",
+     "cause": "the generator's stack settings sealed_revocation_map = False, identity_oracle = False",
+     "owner": "the issuing home: the pool table and the revocation map"
+    }
+   ],
+   "measured": 16,
+   "metric": "identity_exposed",
+   "op": "<=",
+   "party": "all-homes-hacker",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "custodial-join",
+     "cause": "the generator's stack settings sealed_revocation_map = False, identity_oracle = False",
+     "owner": "the issuing home: the pool table and the revocation map"
+    }
+   ],
+   "measured": 1,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "one-home-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "custodial-join",
+     "cause": "the generator's stack settings sealed_revocation_map = False, identity_oracle = False",
+     "owner": "the issuing home: the pool table and the revocation map"
+    }
+   ],
+   "measured": 16,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "all-homes-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "agent-end-role",
+     "cause": "the generator's stack settings hosted_agents = 'per-citizen', holder_aids = 'transferable'",
+     "owner": "the hosted-agent operator: an agent per holder AID, or end roles verifiers never store"
+    },
+    {
+     "attack": "custodial-join",
+     "cause": "the generator's stack settings sealed_revocation_map = False, identity_oracle = False",
+     "owner": "the issuing home: the pool table and the revocation map"
+    },
+    {
+     "attack": "kel-anchor-adjacency",
+     "cause": "the generator's stack settings issuance_order = 'per-citizen', decoys = 0",
+     "owner": "the issuer and any orchestrator: mix issuance order across citizens"
+    },
+    {
+     "attack": "kel-first-seen",
+     "cause": "the generator's stack settings first_seen = 'exact', issuance_order = 'per-citizen'",
+     "owner": "the issuer and the holder's wallet: the first-seen times a published KEL replay carries"
+    },
+    {
+     "attack": "registry-inception-adjacency",
+     "cause": "the generator's stack settings registry_allocation = 'fifo', issuance_order = 'per-citizen'",
+     "owner": "the issuer: random registry allocation"
+    },
+    {
+     "attack": "timestamp-clustering",
+     "cause": "the generator's stack settings dt_granularity = 0.0, issuance_order = 'per-citizen'",
+     "owner": "the issuer, any orchestrator and batch commitment: coarse dt"
+    }
+   ],
+   "measured": 2,
+   "metric": "flagged_domains",
+   "op": "<=",
+   "party": "all-homes-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "measured": 0,
+   "metric": "identity_exposed",
+   "op": "<=",
+   "party": "revocation-insider",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "revocation-insider-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "registrar-insider-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "observer-insider-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "custodial-join",
+     "cause": "the generator's stack settings sealed_revocation_map = False, identity_oracle = False",
+     "owner": "the issuing home: the pool table and the revocation map"
+    }
+   ],
+   "measured": 1,
+   "metric": "identity_exposed",
+   "op": "<=",
+   "party": "compelled-home",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "custodial-join",
+     "cause": "the generator's stack settings sealed_revocation_map = False, identity_oracle = False",
+     "owner": "the issuing home: the pool table and the revocation map"
+    }
+   ],
+   "measured": 1,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "compelled-home-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "registrar-observer-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "agent-end-role",
+     "cause": "the generator's stack settings hosted_agents = 'per-citizen', holder_aids = 'transferable'",
+     "owner": "the hosted-agent operator: an agent per holder AID, or end roles verifiers never store"
+    },
+    {
+     "attack": "kel-anchor-adjacency",
+     "cause": "the generator's stack settings issuance_order = 'per-citizen', decoys = 0",
+     "owner": "the issuer and any orchestrator: mix issuance order across citizens"
+    },
+    {
+     "attack": "kel-first-seen",
+     "cause": "the generator's stack settings first_seen = 'exact', issuance_order = 'per-citizen'",
+     "owner": "the issuer and the holder's wallet: the first-seen times a published KEL replay carries"
+    },
+    {
+     "attack": "registry-inception-adjacency",
+     "cause": "the generator's stack settings registry_allocation = 'fifo', issuance_order = 'per-citizen'",
+     "owner": "the issuer: random registry allocation"
+    },
+    {
+     "attack": "registry-reads",
+     "cause": "the generator's stack settings holder_status_reads = True, holder_network = 'direct'",
+     "owner": "the Observer and the Registrar operator: read logging"
+    },
+    {
+     "attack": "timestamp-clustering",
+     "cause": "the generator's stack settings dt_granularity = 0.0, issuance_order = 'per-citizen'",
+     "owner": "the issuer, any orchestrator and batch commitment: coarse dt"
+    }
+   ],
+   "measured": 2,
+   "metric": "flagged_domains",
+   "op": "<=",
+   "party": "registrar-observer-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "measured": 0,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "hosted-agent-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "pass"
+  },
+  {
+   "attacks": [
+    {
+     "attack": "agent-end-role",
+     "cause": "the generator's stack settings hosted_agents = 'per-citizen', holder_aids = 'transferable'",
+     "owner": "the hosted-agent operator: an agent per holder AID, or end roles verifiers never store"
+    },
+    {
+     "attack": "hosted-agent",
+     "cause": "the generator's stack settings hosted_agents = 'per-citizen'",
+     "owner": "the hosted-agent operator"
+    },
+    {
+     "attack": "kel-anchor-adjacency",
+     "cause": "the generator's stack settings issuance_order = 'per-citizen', decoys = 0",
+     "owner": "the issuer and any orchestrator: mix issuance order across citizens"
+    },
+    {
+     "attack": "kel-first-seen",
+     "cause": "the generator's stack settings first_seen = 'exact', issuance_order = 'per-citizen'",
+     "owner": "the issuer and the holder's wallet: the first-seen times a published KEL replay carries"
+    },
+    {
+     "attack": "log-scan",
+     "cause": "the generator's stack settings log_join_material = False",
+     "owner": "every component that logs: retention and redaction"
+    },
+    {
+     "attack": "registry-inception-adjacency",
+     "cause": "the generator's stack settings registry_allocation = 'fifo', issuance_order = 'per-citizen'",
+     "owner": "the issuer: random registry allocation"
+    },
+    {
+     "attack": "timestamp-clustering",
+     "cause": "the generator's stack settings dt_granularity = 0.0, issuance_order = 'per-citizen'",
+     "owner": "the issuer, any orchestrator and batch commitment: coarse dt"
+    }
+   ],
+   "measured": 2,
+   "metric": "flagged_domains",
+   "op": "<=",
+   "party": "hosted-agent-with-verifiers",
+   "threshold": 0.0,
+   "verdict": "fail"
+  }
+ ],
+ "gaps": {
+  "27nu": "timestamps and nonces carried by the presentation protocol itself",
+  "2mcg": "calibration of join confidence when citizens hold different numbers of copies",
+  "34kz": "truncated, re-encoded and split identifiers in logs",
+  "3f3n": "discovery material inside presentations, such as OOBI paths that name a citizen's agent",
+  "3ikg": "the sensitivity of bits to the population model's declared correlations",
+  "5aaa": "holder-side custodial stores: a mailbox's message store and a hosted agent's account database",
+  "5im4": "timing joins between an asynchronous issuer's operation log and issuance anchors",
+  "5sdj": "linkage across a credential's lifecycle: renewal, re-issuance, revocation cohorts and pool top-ups",
+  "63ga": "recovering undisclosed low-entropy attributes from a compact block's SAID when the block carries no salt",
+  "6hat": "attribute values a presentation's bytes carry beyond what it declares disclosed",
+  "7pan": "active probing that needs a live stack, such as cache-warmth or response-timing oracles"
+ },
+ "measurement_limits": [
+  "Verifier-side bits are a lower bound on what presentation bytes can reveal: the scorer counts declared attributes, while a selectively disclosed age-band presentation can carry a full birthDate (tick 6hat)."
+ ],
+ "non_claims": [
+  "a global passive network adversary",
+  "transport-level fingerprints (TLS, connection reuse)",
+  "re-identification from behavioural quasi-identifiers alone",
+  "what a holder chooses to disclose, beyond counting its bits",
+  "breach detection"
+ ],
+ "parties": {
+  "all-homes-hacker": {
+   "attacks": {
+    "agent-end-role": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "batch-order": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "custodial-join": {
+     "certain_share": 1.0,
+     "joins": 768,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "event-count-lockstep": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness",
+      "verifier"
+     ]
+    },
+    "holder-kel": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent",
+      "verifier"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-anchor-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-first-seen": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-inception-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar",
+      "verifier"
+     ]
+    },
+    "shared-anchor": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-holder": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-registry": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "timestamp-clustering": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness",
+      "verifier"
+     ]
+    }
+   },
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "issuing-home:0": "present",
+    "issuing-home:1": "present",
+    "issuing-home:2": "present",
+    "issuing-home:3": "present",
+    "public": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 16,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 768,
+   "kind": "hacker",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "all-homes-with-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "certain_share": 1.0,
+     "joins": 1120,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 16
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 21.73892349138178,
+    "median": 21.73892349138178,
+    "p90": 21.73892349138178,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 16,
+   "citizens": 16,
+   "compartments": {
+    "issuing-home:0": "present",
+    "issuing-home:1": "present",
+    "issuing-home:2": "present",
+    "issuing-home:3": "present",
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 16,
+   "increment": {
+    "max": 21.73892349138178,
+    "median": 21.73892349138178
+   },
+   "joins": 1120,
+   "kind": "hacker",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 16,
+   "sensitive_exposed": {}
+  },
+  "compelled-home": {
+   "attacks": {
+    "agent-end-role": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "batch-order": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "custodial-join": {
+     "certain_share": 1.0,
+     "joins": 48,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "event-count-lockstep": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness",
+      "verifier"
+     ]
+    },
+    "holder-kel": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent",
+      "verifier"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-anchor-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-first-seen": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-inception-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar",
+      "verifier"
+     ]
+    },
+    "shared-anchor": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-holder": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-registry": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "timestamp-clustering": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness",
+      "verifier"
+     ]
+    }
+   },
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "issuing-home:0": "present",
+    "public": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 1,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 48,
+   "kind": "government",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "compelled-home-with-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "certain_share": 1.0,
+     "joins": 70,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 1
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 21.73892349138178,
+    "median": 6.312878634153599,
+    "p90": 8.396848823382639,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 1,
+   "citizens": 16,
+   "compartments": {
+    "issuing-home:0": "present",
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 1,
+   "increment": {
+    "max": 21.73892349138178,
+    "median": 6.312878634153599
+   },
+   "joins": 160,
+   "kind": "government",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 1,
+   "sensitive_exposed": {}
+  },
+  "hosted-agent-network": {
+   "attacks": {
+    "agent-end-role": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "batch-order": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness",
+      "verifier"
+     ]
+    },
+    "holder-kel": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-anchor-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-first-seen": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "log-scan": {
+     "certain_share": 1.0,
+     "joins": 64,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-inception-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar",
+      "verifier"
+     ]
+    },
+    "shared-anchor": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-holder": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-registry": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "timestamp-clustering": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness",
+      "verifier"
+     ]
+    }
+   },
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "access-log:hosted-agent": "present",
+    "public": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 64,
+   "kind": "network-observer",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "hosted-agent-with-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": 1.0,
+     "joins": 128,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748,
+    "p90": 7.7247286245672795,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "access-log:hosted-agent": "present",
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748
+   },
+   "joins": 224,
+   "kind": "network-observer",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "many-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748,
+    "p90": 7.7247286245672795,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748
+   },
+   "joins": 96,
+   "kind": "colluding-verifier",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "many-verifiers-terms": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 6.064538096909612,
+    "median": 4.162032966443181,
+    "p90": 5.181609380219982,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 96,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.5
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.5
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 6.064538096909612,
+    "median": 4.162032966443181
+   },
+   "joins": 96,
+   "kind": "colluding-verifier",
+   "notes": {},
+   "precision": null,
+   "recall": 0.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "observer-insider": {
+   "attacks": {
+    "agent-end-role": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "batch-order": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness",
+      "verifier"
+     ]
+    },
+    "holder-kel": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent",
+      "verifier"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-anchor-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-first-seen": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-inception-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-reads": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-anchor": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-holder": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-registry": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "timestamp-clustering": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness",
+      "verifier"
+     ]
+    }
+   },
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "access-log:observer": "present",
+    "public": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 0,
+   "kind": "insider",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "observer-insider-with-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748,
+    "p90": 7.7247286245672795,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "access-log:observer": "present",
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748
+   },
+   "joins": 96,
+   "kind": "insider",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "one-home-hacker": {
+   "attacks": {
+    "agent-end-role": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "batch-order": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "custodial-join": {
+     "certain_share": 1.0,
+     "joins": 48,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "event-count-lockstep": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness",
+      "verifier"
+     ]
+    },
+    "holder-kel": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent",
+      "verifier"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-anchor-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-first-seen": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-inception-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar",
+      "verifier"
+     ]
+    },
+    "shared-anchor": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-holder": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-registry": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "timestamp-clustering": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness",
+      "verifier"
+     ]
+    }
+   },
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "issuing-home:0": "present",
+    "public": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 1,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 48,
+   "kind": "hacker",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "one-home-with-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "certain_share": 1.0,
+     "joins": 70,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 1
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 21.73892349138178,
+    "median": 6.312878634153599,
+    "p90": 8.396848823382639,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 1,
+   "citizens": 16,
+   "compartments": {
+    "issuing-home:0": "present",
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 1,
+   "increment": {
+    "max": 21.73892349138178,
+    "median": 6.312878634153599
+   },
+   "joins": 160,
+   "kind": "hacker",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 1,
+   "sensitive_exposed": {}
+  },
+  "registrar-insider": {
+   "attacks": {
+    "agent-end-role": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "batch-order": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness",
+      "verifier"
+     ]
+    },
+    "holder-kel": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent",
+      "verifier"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-anchor-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-first-seen": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-inception-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-reads": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-anchor": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-holder": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-registry": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "timestamp-clustering": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness",
+      "verifier"
+     ]
+    }
+   },
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "access-log:registrar": "present",
+    "public": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 0,
+   "kind": "insider",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "registrar-insider-with-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748,
+    "p90": 7.7247286245672795,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "access-log:registrar": "present",
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748
+   },
+   "joins": 96,
+   "kind": "insider",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "registrar-observer-network": {
+   "attacks": {
+    "agent-end-role": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "batch-order": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness",
+      "verifier"
+     ]
+    },
+    "holder-kel": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent",
+      "verifier"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-anchor-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-first-seen": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-inception-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-reads": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-anchor": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-holder": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-registry": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "timestamp-clustering": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness",
+      "verifier"
+     ]
+    }
+   },
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "access-log:observer": "present",
+    "access-log:registrar": "present",
+    "public": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 0,
+   "kind": "network-observer",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "registrar-observer-with-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748,
+    "p90": 7.7247286245672795,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "access-log:observer": "present",
+    "access-log:registrar": "present",
+    "public": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748
+   },
+   "joins": 96,
+   "kind": "network-observer",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "revocation-insider": {
+   "attacks": {
+    "agent-end-role": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "batch-order": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "custodial-join": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "event-count-lockstep": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness",
+      "verifier"
+     ]
+    },
+    "holder-kel": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent",
+      "verifier"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-anchor-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "kel-first-seen": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-inception-adjacency": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar",
+      "verifier"
+     ]
+    },
+    "shared-anchor": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-holder": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "shared-registry": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "timestamp-clustering": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "verifier"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness",
+      "verifier"
+     ]
+    }
+   },
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "public": "present",
+    "revocation-authority": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 0,
+   "kind": "insider",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "revocation-insider-with-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 64,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 96,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748,
+    "p90": 7.7247286245672795,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "public": "present",
+    "revocation-authority": "present",
+    "verifier:bar": "present",
+    "verifier:clinic": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": true,
+     "median": 1.0
+    },
+    "pharmacy": {
+     "complete": 16,
+     "flagged": true,
+     "mandatory": false,
+     "median": 1.0
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748
+   },
+   "joins": 96,
+   "kind": "insider",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "two-verifiers": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 32,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": 1.0,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748,
+    "p90": 7.7247286245672795,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 0,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "public": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.5
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.5
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 8.396848823382639,
+    "median": 5.993466723448748
+   },
+   "joins": 16,
+   "kind": "colluding-verifier",
+   "notes": {},
+   "precision": 1.0,
+   "recall": 1.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  },
+  "two-verifiers-terms": {
+   "attacks": {
+    "agent-end-role": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "batch-order": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "custodial-join": {
+     "not_measured": [
+      "issuing-home or revocation-authority"
+     ]
+    },
+    "event-count-lockstep": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "holder-infrastructure": {
+     "not_measured": [
+      "access-log:mailbox or access-log:holder-witness"
+     ]
+    },
+    "holder-kel": {
+     "certain_share": null,
+     "joins": 1,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 32,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-anchor-adjacency": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "kel-first-seen": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "log-scan": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "payload-invariance": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-inception-adjacency": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "registry-reads": {
+     "not_measured": [
+      "access-log:observer or access-log:registrar"
+     ]
+    },
+    "shared-anchor": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-batch-root": {
+     "not_measured": [
+      "Registrar batches in the public record"
+     ]
+    },
+    "shared-holder": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "shared-registry": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 16,
+     "observations": 0,
+     "precision": null,
+     "reidentified": 0
+    },
+    "verifier-probing": {
+     "not_measured": [
+      "a verifier's own probe log"
+     ]
+    },
+    "witness-arrival": {
+     "not_measured": [
+      "access-log:witness"
+     ]
+    }
+   },
+   "bits": {
+    "max": 6.064538096909612,
+    "median": 4.162032966443181,
+    "p90": 5.181609380219982,
+    "threshold": 21.73892349138178
+   },
+   "bound_joins": 16,
+   "breach_reidentified": 0,
+   "citizens": 16,
+   "compartments": {
+    "public": "present",
+    "verifier:liquor-store": "present",
+    "verifier:pharmacy": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.5
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.5
+    }
+   },
+   "identity_exposed": 0,
+   "increment": {
+    "max": 6.064538096909612,
+    "median": 4.162032966443181
+   },
+   "joins": 16,
+   "kind": "colluding-verifier",
+   "notes": {},
+   "precision": null,
+   "recall": 0.0,
+   "reidentified": 0,
+   "sensitive_exposed": {}
+  }
+ },
+ "provenance": {
+  "adapter": {
+   "kind": "synthetic",
+   "name": "generator",
+   "note": "keripy issuers whose KELs carry no receipts, with witness arrivals in the witness access log; stores and logs written in the shapes a custodial issuer's adapter exports"
+  },
+  "keripy": {
+   "commit": "910dcb350e63d3129c91345429c1fa10f2dae5e5",
+   "version": "2.1.0.dev1"
+  },
+  "population": {
+   "seed": 1,
+   "sha256": "a143ac0841eb99e8313f7908e7e5b97f976647025adbcd96cc1d4f4cc1cf9a3d",
+   "size": 3500000
+  },
+  "python": "3.14.6",
+  "scenario_sha256": "79f9163f60431a497863f8e222d7ce8ee38d303fca89ea4171fd5e3b0845d04c",
+  "suite": "2026.10"
+ }
+}
