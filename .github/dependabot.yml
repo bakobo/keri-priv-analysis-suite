@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # keripy is pinned by commit so the generator and the live adapters speak the same keripy
+    # (pyproject.toml); moving it changes what is measured and is made by hand.
+    ignore:
+      - dependency-name: "keri"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "uv"
+    directory: "/adapters/keria"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "uv"
+    directory: "/adapters/keria/stack"
+    schedule:
+      interval: "weekly"
+    # The stack pins the KERIA, SignifyPy and keripy commits it measures (adapters/keria/manifest.toml);
+    # moving one is a change to what is being measured, made by hand with a rerun, not a routine bump.
+    ignore:
+      - dependency-name: "keri"
+      - dependency-name: "keria"
+      - dependency-name: "signifypy"

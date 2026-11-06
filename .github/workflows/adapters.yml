@@ -1,0 +1,37 @@
+name: Adapters
+
+# Weekly, and on demand: each real adapter's own tests, which run the adapter contract suite
+# against its pinned stack (docs/test-plan.md Part B item 5). Each adapter installs exactly its
+# committed lock (uv sync --locked), so a stale lock fails rather than measuring a different stack.
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  keria:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          python-version: "3.14"
+          enable-cache: true
+      - name: Install libsodium
+        run: sudo apt-get update && sudo apt-get install -y libsodium23
+      # KERIA needs keripy 1.2 and the suite keripy 2, so the stack has its own project.
+      - name: Install the adapter and its stack at their pins
+        run: |
+          uv sync --locked --project adapters/keria
+          uv sync --locked --project adapters/keria/stack
+      - name: Contract suite on the pinned stack
+        working-directory: adapters/keria
+        run: uv run pytest

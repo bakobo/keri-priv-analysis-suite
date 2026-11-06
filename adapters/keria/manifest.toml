@@ -1,0 +1,29 @@
+# The KERIA stack this adapter measures: every component it drives, by repository and full commit.
+# stack/uv.lock pins the same commits. Changing a pin is a commit (docs/adapters.md, "Pins").
+
+[[component]]
+name = "keria"
+repository = "https://github.com/WebOfTrust/keria"
+commit = "928ce26a4dfcb802c0efa9b2810c53edd7920f59"
+release = "0.4.1"
+note = "The latest KERIA release (2026-09-30). There is no KERIA 0.4.2; 0.4.2 is SignifyPy's release of 2026-05-12."
+
+[[component]]
+name = "signifypy"
+repository = "https://github.com/WebOfTrust/signifypy"
+commit = "2e9772cbb0609a681d21f62e50b59be162314d17"
+release = "0.4.2"
+
+[[component]]
+name = "keripy"
+repository = "https://github.com/WebOfTrust/keripy"
+commit = "bab95c16e949b61398129a3e41a8f68bad84c94f"
+release = "1.2.14"
+note = "The keripy KERIA 0.4.1 requires (keri==1.2.14)."
+
+[[component]]
+name = "hio"
+repository = "https://github.com/ioflo/hio"
+commit = "8e9e760305752e5c6d0e2b9658f15c2b035d54bb"
+release = "0.6.14"
+note = "KERIA 0.4.1 pins hio==0.6.14; stack/uv.lock installs that release from PyPI by hash, and this is its tagged commit."

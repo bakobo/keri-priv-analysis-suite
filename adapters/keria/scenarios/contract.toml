@@ -1,0 +1,131 @@
+# The KERIA adapter's contract scenario: the smallest world that exercises every compartment the
+# adapter exports. Two citizens, two copies each, one issuing home, two verifiers each shown one
+# copy, disclosing every attribute the credential carries. Its stack settings are the ones KERIA honours (src/kpa_adapter_keria/settings.py).
+
+[run]
+seed = 17
+adapter = "keria"
+confidence_cut = 1.0
+
+[population]
+size = 1000
+seed = 3
+homes = 1
+home_assignment = "uniform"
+
+[[population.attribute]]
+name = "age-band"
+values = ["18-20", "21-29", "30-44", "45-64", "65+"]
+probabilities = [0.06, 0.18, 0.28, 0.31, 0.17]
+sensitive = false
+
+[[population.attribute]]
+name = "county"
+values = ["county-a", "county-b", "other"]
+probabilities = [0.4, 0.2, 0.4]
+sensitive = false
+
+[[population.correlation]]
+a = "age-band"
+b = "county"
+rho = 0.0
+
+[citizens]
+count = 2
+copies = 2
+issuance_period = 86400.0
+copy_interval = 0.004
+
+[[domain]]
+name = "alcohol"
+mandatory = true
+
+[[domain]]
+name = "pharmacy"
+mandatory = false
+
+[[verifier]]
+id = "liquor-store"
+
+[[verifier]]
+id = "pharmacy"
+
+[[presentation]]
+verifier = "liquor-store"
+domain = "alcohol"
+disclose = ["age-band", "county"]
+per_citizen = 1
+start = 90000.0
+end = 172800.0
+
+[[presentation]]
+verifier = "pharmacy"
+domain = "pharmacy"
+disclose = ["age-band", "county"]
+per_citizen = 1
+start = 90000.0
+end = 172800.0
+
+[stack]
+registry_scope = "issuer"
+registry_allocation = "fifo"
+issuance_order = "per-citizen"
+dt_granularity = 0.0
+tel_updates = "upd"
+status_updates = "none"
+batch_size = 0
+batch_mix = "mixed"
+publication_window = 0.0
+holder_network = "direct"
+holder_status_reads = false
+hosted_agents = "per-citizen"
+verifier_probing = false
+identity_oracle = false
+sealed_revocation_map = false
+decoys = 0
+log_join_material = false
+holder_aids = "transferable"
+holder_witnesses = "pool"
+copy_template = "fresh"
+first_seen = "exact"
+anchor_order = "issuance"
+
+[stack.retention]
+public = inf
+verifier = inf
+issuing-home = inf
+orchestrator = inf
+operation-log = inf
+revocation-authority = inf
+identity-proofing = inf
+access-log = inf
+
+[[party]]
+name = "colluding-verifiers"
+kind = "colluding-verifier"
+compartments = ["public", "verifier:liquor-store", "verifier:pharmacy"]
+obtains_at = 172800.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "home-hacker"
+kind = "hacker"
+compartments = ["public", "issuing-home:0", "verifier:liquor-store", "verifier:pharmacy"]
+obtains_at = 172800.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "agent-host"
+kind = "insider"
+compartments = ["public", "access-log:hosted-agent", "verifier:liquor-store", "verifier:pharmacy"]
+obtains_at = 172800.0
+terms = []
+context_bits = 0.0
+
+[[claim]]
+party = "colluding-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0

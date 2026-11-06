@@ -1,0 +1,38 @@
+[project]
+name = "kpa-keria-stack"
+version = "2026.10"
+description = "The KERIA stack the keri-priv-analysis-suite KERIA adapter drives: KERIA agents driven by SignifyPy, in their own environment."
+requires-python = ">=3.14"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Bakobo LLC" }]
+# KERIA and SignifyPy need keripy 1.2.x, and the suite needs keripy 2.x; both are the package
+# `keri`, so they cannot share one environment. This project is the KERIA side (README.md).
+dependencies = [
+    "keri @ git+https://github.com/WebOfTrust/keripy@bab95c16e949b61398129a3e41a8f68bad84c94f",
+    "keria @ git+https://github.com/WebOfTrust/keria@928ce26a4dfcb802c0efa9b2810c53edd7920f59",
+    "signifypy @ git+https://github.com/WebOfTrust/signifypy@2e9772cbb0609a681d21f62e50b59be162314d17",
+    # The shared error-code machinery the suite uses (dev/standards/error-codes.md).
+    "bakobo-errors @ git+https://github.com/bakobo/errors@b8b29b7ffb0460e58966416c3ff3f5dc5886269f",
+]
+
+[dependency-groups]
+dev = ["pytest>=8", "pytest-cov>=5"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kpa_keria_stack"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=kpa_keria_stack --cov-branch --cov-report=term-missing --cov-fail-under=100"
+testpaths = ["tests"]
+markers = ["slow: drives live KERIA agencies"]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::SyntaxWarning"]
+
+[tool.ruff]
+line-length = 100
