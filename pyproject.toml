@@ -1,0 +1,46 @@
+[project]
+name = "keri-priv-analysis-suite"
+version = "2026.10"
+description = "Measure what a KERI/ACDC deployment lets each adversary join about a citizen, on any implementation."
+readme = "README.md"
+requires-python = ">=3.14"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Bakobo LLC" }]
+dependencies = [
+    # The synthetic generator emits real KEL and TEL bytes with keripy, and attacks parse CESR with
+    # it. Pinned by commit to Bakobo's public keripy fork, so the generator and every live adapter
+    # built on keripy 2 speak the same keripy (docs/test-plan.md, Part B item 6).
+    "keri @ git+https://github.com/bakobo/keripy@910dcb350e63d3129c91345429c1fa10f2dae5e5",
+    # The shared error-code machinery (dev/standards/error-codes.md). Public; pinned by commit.
+    "bakobo-errors @ git+https://github.com/bakobo/errors@b8b29b7ffb0460e58966416c3ff3f5dc5886269f",
+    "numpy>=2.3",
+]
+
+[project.scripts]
+kpa = "keri_priv_analysis.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/keri_priv_analysis"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=keri_priv_analysis --cov-branch --cov-report=term-missing --cov-fail-under=100"
+testpaths = ["tests"]
+# pysodium, which keripy loads, trips a ctypes deprecation on Python 3.14 that is not ours.
+filterwarnings = ["ignore::DeprecationWarning:pysodium"]
+
+[tool.ruff]
+line-length = 100

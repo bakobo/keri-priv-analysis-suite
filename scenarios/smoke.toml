@@ -1,0 +1,149 @@
+# The smoke scenario: a few hundred citizens, two verifiers colluding, and a
+# hacker who obtains one issuing home. Every parameter is set; the loader refuses any left unset.
+# Times are seconds from the start of the scenario.
+
+[run]
+seed = 20261117
+adapter = "generator"
+confidence_cut = 1.0
+
+[population]
+size = 3500000
+seed = 1
+homes = 4
+home_assignment = "uniform"
+
+[[population.attribute]]
+name = "age-band"
+values = ["18-20", "21-29", "30-44", "45-64", "65+"]
+probabilities = [0.06, 0.18, 0.28, 0.31, 0.17]
+sensitive = false
+
+[[population.attribute]]
+name = "county"
+values = ["county-a", "county-b", "county-c", "county-d", "other"]
+probabilities = [0.36, 0.2, 0.11, 0.08, 0.25]
+sensitive = false
+
+[[population.attribute]]
+name = "veteran"
+values = ["no", "yes"]
+probabilities = [0.93, 0.07]
+sensitive = true
+
+[[population.correlation]]
+a = "age-band"
+b = "veteran"
+rho = 0.3
+
+[citizens]
+count = 300
+copies = 6
+issuance_period = 2592000.0
+copy_interval = 0.004
+
+[[domain]]
+name = "alcohol"
+mandatory = true
+
+[[domain]]
+name = "pharmacy"
+mandatory = false
+
+[[verifier]]
+id = "liquor-store"
+
+[[verifier]]
+id = "pharmacy"
+
+[[presentation]]
+verifier = "liquor-store"
+domain = "alcohol"
+disclose = ["age-band"]
+per_citizen = 2
+start = 2678400.0
+end = 5184000.0
+
+[[presentation]]
+verifier = "pharmacy"
+domain = "pharmacy"
+disclose = ["county", "veteran"]
+per_citizen = 2
+start = 2678400.0
+end = 5184000.0
+
+[stack]
+registry_scope = "credential"
+registry_allocation = "fifo"
+issuance_order = "per-citizen"
+dt_granularity = 0.0
+tel_updates = "upd"
+status_updates = "none"
+batch_size = 0
+batch_mix = "mixed"
+publication_window = 0.0
+holder_network = "direct"
+holder_status_reads = false
+hosted_agents = "none"
+verifier_probing = false
+identity_oracle = false
+sealed_revocation_map = false
+decoys = 0
+log_join_material = false
+holder_aids = "transferable"
+holder_witnesses = "pool"
+copy_template = "fresh"
+first_seen = "exact"
+anchor_order = "issuance"
+
+[stack.retention]
+public = inf
+verifier = inf
+issuing-home = inf
+orchestrator = inf
+operation-log = inf
+revocation-authority = inf
+identity-proofing = inf
+access-log = inf
+
+[[party]]
+name = "colluding-verifiers"
+kind = "colluding-verifier"
+compartments = ["public", "verifier:liquor-store", "verifier:pharmacy"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "home-hacker"
+kind = "hacker"
+compartments = ["public", "issuing-home:0"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[party]]
+name = "verifiers-buy-stolen-home"
+kind = "hacker"
+compartments = ["public", "issuing-home:0", "verifier:liquor-store", "verifier:pharmacy"]
+obtains_at = 5184000.0
+terms = []
+context_bits = 0.0
+
+[[claim]]
+party = "colluding-verifiers"
+metric = "reidentified"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "colluding-verifiers"
+metric = "flagged_domains"
+op = "<="
+threshold = 0.0
+
+[[claim]]
+party = "verifiers-buy-stolen-home"
+metric = "reidentified"
+op = "<="
+threshold = 0.0

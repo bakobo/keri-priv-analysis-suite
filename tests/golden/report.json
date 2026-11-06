@@ -1,0 +1,186 @@
+{
+ "claims": [
+  {
+   "attacks": [
+    {
+     "attack": "timestamp-clustering",
+     "cause": "microsecond dt",
+     "owner": "the issuer"
+    },
+    {
+     "attack": "log-scan",
+     "cause": "",
+     "owner": "everyone"
+    }
+   ],
+   "measured": 1,
+   "metric": "reidentified",
+   "op": "<=",
+   "party": "verifiers",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "measured": 4.322,
+   "metric": "max_bits",
+   "op": "<=",
+   "party": "verifiers",
+   "threshold": 10.0,
+   "verdict": "pass"
+  },
+  {
+   "attacks": [],
+   "measured": 1,
+   "metric": "flagged_domains",
+   "op": "<=",
+   "party": "hacker",
+   "threshold": 0.0,
+   "verdict": "fail"
+  },
+  {
+   "measured": null,
+   "metric": "precision",
+   "op": ">=",
+   "party": "hacker",
+   "threshold": 0.5,
+   "verdict": "not-measured"
+  }
+ ],
+ "gaps": {
+  "27nu": "timestamps and nonces carried by the presentation protocol itself",
+  "2mcg": "calibration of join confidence when citizens hold different numbers of copies",
+  "34kz": "truncated, re-encoded and split identifiers in logs",
+  "3f3n": "discovery material inside presentations, such as OOBI paths that name a citizen's agent",
+  "3ikg": "the sensitivity of bits to the population model's declared correlations",
+  "5aaa": "holder-side custodial stores: a mailbox's message store and a hosted agent's account database",
+  "5im4": "timing joins between an asynchronous issuer's operation log and issuance anchors",
+  "5sdj": "linkage across a credential's lifecycle: renewal, re-issuance, revocation cohorts and pool top-ups",
+  "63ga": "recovering undisclosed low-entropy attributes from a compact block's SAID when the block carries no salt",
+  "6hat": "attribute values a presentation's bytes carry beyond what it declares disclosed",
+  "7pan": "active probing that needs a live stack, such as cache-warmth or response-timing oracles"
+ },
+ "measurement_limits": [
+  "Verifier-side bits are a lower bound on what presentation bytes can reveal: the scorer counts declared attributes, while a selectively disclosed age-band presentation can carry a full birthDate (tick 6hat)."
+ ],
+ "non_claims": [
+  "a global passive network adversary",
+  "transport-level fingerprints (TLS, connection reuse)",
+  "re-identification from behavioural quasi-identifiers alone",
+  "what a holder chooses to disclose, beyond counting its bits",
+  "breach detection"
+ ],
+ "parties": {
+  "hacker": {
+   "attacks": {},
+   "bits": {
+    "max": 0.0,
+    "median": 0.0,
+    "p90": 0.0,
+    "threshold": 4.322
+   },
+   "bound_joins": 2,
+   "breach_reidentified": 3,
+   "citizens": 0,
+   "compartments": {
+    "issuing-home:0": "present"
+   },
+   "completeness": {},
+   "identity_exposed": 1,
+   "increment": {
+    "max": 0.0,
+    "median": 0.0
+   },
+   "joins": 3,
+   "kind": "hacker",
+   "notes": {},
+   "precision": null,
+   "recall": null,
+   "reidentified": 1,
+   "sensitive_exposed": {}
+  },
+  "verifiers": {
+   "attacks": {
+    "hosted-agent": {
+     "not_measured": [
+      "access-log:hosted-agent"
+     ]
+    },
+    "issuer-aid-bucket": {
+     "certain_share": null,
+     "joins": 0,
+     "observations": 6,
+     "precision": null,
+     "reidentified": 0
+    },
+    "timestamp-clustering": {
+     "certain_share": 1.0,
+     "joins": 3,
+     "observations": 0,
+     "precision": 0.667,
+     "reidentified": 1
+    }
+   },
+   "bits": {
+    "max": 4.322,
+    "median": 2.5,
+    "p90": 4.322,
+    "threshold": 4.322
+   },
+   "bound_joins": 2,
+   "breach_reidentified": 3,
+   "citizens": 3,
+   "compartments": {
+    "orchestrator": "absent",
+    "public": "present",
+    "verifier:v1": "present"
+   },
+   "completeness": {
+    "alcohol": {
+     "complete": 1,
+     "flagged": true,
+     "mandatory": true,
+     "median": 0.5
+    },
+    "pharmacy": {
+     "complete": 0,
+     "flagged": false,
+     "mandatory": null,
+     "median": 0.0
+    }
+   },
+   "identity_exposed": 1,
+   "increment": {
+    "max": 2.322,
+    "median": 0.5
+   },
+   "joins": 3,
+   "kind": "colluding-verifier",
+   "notes": {
+    "orchestrator": "Not built yet."
+   },
+   "precision": 0.667,
+   "recall": 0.5,
+   "reidentified": 1,
+   "sensitive_exposed": {
+    "veteran": 1
+   }
+  }
+ },
+ "provenance": {
+  "adapter": {
+   "name": "generator"
+  },
+  "keripy": {
+   "commit": "",
+   "version": "2.1.0.dev1"
+  },
+  "population": {
+   "seed": 1,
+   "sha256": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+   "size": 20
+  },
+  "python": "3.14.6",
+  "scenario_sha256": "abababababababababababababababababababababababababababababababab",
+  "suite": "2026.10"
+ }
+}

@@ -1,0 +1,25 @@
+# Who owns the fix when an attack makes a claim fail (docs/test-plan.md, 'Verdicts and the
+# report'). Owners are the components that can change what a compartment holds. A live adapter
+# names its own stack's components (this.i 343qkxce); these are the fallback, named by role, that
+# the synthetic generator's design sweeps report.
+shared-registry = "the issuer: registry scope per credential"
+kel-anchor-adjacency = "the issuer and any orchestrator: mix issuance order across citizens"
+registry-inception-adjacency = "the issuer: random registry allocation"
+timestamp-clustering = "the issuer, any orchestrator and batch commitment: coarse dt"
+event-count-lockstep = "the issuer: status updates anchored apart"
+shared-batch-root = "batch commitment: batch composition"
+issuer-aid-bucket = "the orchestrator: fleet size and home assignment"
+holder-infrastructure = "the holder's wallet: holder-AID endpoints per copy"
+registry-reads = "the Observer and the Registrar operator: read logging"
+hosted-agent = "the hosted-agent operator"
+verifier-probing = "the Registrar: publication windows"
+custodial-join = "the issuing home: the pool table and the revocation map"
+log-scan = "every component that logs: retention and redaction"
+holder-kel = "the holder's wallet: holder AIDs per copy that are neither delegated nor share a witness set"
+payload-invariance = "the issuer: a fresh salt and attribute block for every copy"
+shared-anchor = "the issuer: anchor copies alone, or in batches mixed across citizens"
+batch-order = "batch commitment and the Registrar: shuffle heads within a batch"
+kel-first-seen = "the issuer and the holder's wallet: the first-seen times a published KEL replay carries"
+witness-arrival = "the witness operator: arrival logging and its retention"
+shared-holder = "the holder's wallet or agent: a fresh holder AID for every copy"
+agent-end-role = "the hosted-agent operator: an agent per holder AID, or end roles verifiers never store"

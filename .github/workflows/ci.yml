@@ -1,0 +1,36 @@
+name: CI
+
+# Tests the suite's own correctness (docs/test-plan.md, Part B): lint, then the unit and generator
+# tests under the 100% branch coverage gate. Nothing here needs a running KERI stack; the KERIA
+# adapter's contract run is the scheduled job in adapters.yml.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          python-version: "3.14"
+          enable-cache: true
+      # keripy signs and verifies through pysodium, which loads the system libsodium.
+      - name: Install libsodium
+        run: sudo apt-get update && sudo apt-get install -y libsodium23
+      # --locked fails when uv.lock does not match pyproject.toml, rather than testing a stale environment.
+      - name: Sync dependencies
+        run: uv sync --locked
+      - name: Lint
+        run: uv run ruff check src tests
+      - name: Run tests (100% branch coverage gate)
+        run: uv run pytest

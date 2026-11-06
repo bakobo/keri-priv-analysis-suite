@@ -1,0 +1,71 @@
+# What answers each of the five correlation vectors, each finding the design review predicted, and each
+# countermeasure in this.i 2gxskju4 (docs/test-plan.md Part B item 7). tests/test_catalogue.py
+# keeps this file and the attacks' own declarations in step.
+
+# The five vectors: registry, timestamp, batch, AID and network-observation correlation.
+# The custodial join and the log scan read the State's stores, which hold every vector's material.
+[vectors]
+registry = ["shared-registry", "registry-inception-adjacency", "event-count-lockstep",
+            "custodial-join", "log-scan", "payload-invariance", "shared-anchor"]
+timestamp = ["timestamp-clustering", "custodial-join", "log-scan", "kel-first-seen",
+             "witness-arrival"]
+batch = ["kel-anchor-adjacency", "shared-batch-root", "custodial-join", "log-scan",
+         "shared-anchor", "batch-order"]
+AID = ["kel-anchor-adjacency", "issuer-aid-bucket", "holder-infrastructure", "custodial-join",
+       "log-scan", "holder-kel", "payload-invariance", "shared-holder", "agent-end-role"]
+network = ["holder-infrastructure", "registry-reads", "hosted-agent", "verifier-probing",
+           "custodial-join", "log-scan", "witness-arrival", "agent-end-role"]
+
+# The findings in the test plan's legend.
+[findings]
+F1 = ["kel-anchor-adjacency", "registry-inception-adjacency"]
+F2 = ["timestamp-clustering"]
+F3 = ["custodial-join"]
+F4 = ["registry-reads"]
+F5 = ["holder-infrastructure"]
+F6 = ["event-count-lockstep"]
+F7 = ["shared-batch-root"]
+F8 = ["issuer-aid-bucket"]
+F-J180 = ["issuer-aid-bucket"]
+F-CVNP = ["hosted-agent"]
+
+# Countermeasures, each a scenario setting the suite scores off and on.
+[countermeasures]
+"random registry allocation" = ["stack.registry_allocation"]
+"mixing issuance order across citizens" = ["stack.issuance_order"]
+"coarse dt" = ["stack.dt_granularity"]
+"identity oracle" = ["stack.identity_oracle"]
+"decoy registries and records" = ["stack.decoys"]
+"revocation map sealed away from the issuing home" = ["stack.sealed_revocation_map"]
+"retention expiry" = ["stack.retention"]
+"blinded bup" = ["stack.tel_updates"]
+"batch commitment" = ["stack.batch_size", "stack.batch_mix"]
+"Registrar batch windows" = ["stack.publication_window"]
+"fleet size across issuing homes" = ["population.homes", "population.home_assignment"]
+
+# What the suite does not claim to measure; every report ends with these.
+[non-claims]
+items = [
+    "a global passive network adversary",
+    "transport-level fingerprints (TLS, connection reuse)",
+    "re-identification from behavioural quasi-identifiers alone",
+    "what a holder chooses to disclose, beyond counting its bits",
+    "breach detection",
+]
+
+# Attacks the red team of 2026-10-17 found that the catalogue does not yet make, each tracked as a
+# tick. Every report lists them, so silence on
+# these channels is never read as a clean result.
+[gaps]
+5sdj = "linkage across a credential's lifecycle: renewal, re-issuance, revocation cohorts and pool top-ups"
+63ga = "recovering undisclosed low-entropy attributes from a compact block's SAID when the block carries no salt"
+2mcg = "calibration of join confidence when citizens hold different numbers of copies"
+5aaa = "holder-side custodial stores: a mailbox's message store and a hosted agent's account database"
+3f3n = "discovery material inside presentations, such as OOBI paths that name a citizen's agent"
+5im4 = "timing joins between an asynchronous issuer's operation log and issuance anchors"
+34kz = "truncated, re-encoded and split identifiers in logs"
+3ikg = "the sensitivity of bits to the population model's declared correlations"
+7pan = "active probing that needs a live stack, such as cache-warmth or response-timing oracles"
+27nu = "timestamps and nonces carried by the presentation protocol itself"
+# Found by the hostile review of the first live smoke run's committed directory, 2026-10-18.
+6hat = "attribute values a presentation's bytes carry beyond what it declares disclosed"
