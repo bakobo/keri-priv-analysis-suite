@@ -13,12 +13,12 @@ The site renders only what is committed. It runs no scenario and no adapter, and
 `scripts/site-source` assembles the site's markdown into `_site/src` and rewrites each link for that layout. It stops, and the site is not built, when:
 
 - a page links to a path the repository does not have, or to one outside it, or the link goes through a symbolic link;
-- a published page has raw HTML anywhere outside code spans, fenced blocks and `<https://…>` autolinks;
-- a published SVG holds a script, an event handler, a `javascript:` URL or embedded HTML;
+- a published page, rendered with the site's own markdown extensions, contains an element, an attribute or a link scheme outside a short allow-list (the elements markdown produces, no event handlers, inline style only for table alignment, and links that are relative or use `http`, `https` or `mailto`);
+- a published SVG does not parse, declares entities, or holds a script, an animation or `foreignObject` element, an event handler, or a link with any other scheme, whatever namespace prefix it uses;
 - a file under `docs/` would take the place of a generated page (`docs/index.md` or `docs/results/`);
 - the output directory exists and the tool did not make it.
 
-The HTML rules exist because a report can carry text an adapter supplied, such as the owner of a failed claim. A report that put markup there would otherwise publish it on this site's origin. The rule refuses the report rather than escaping it, so a committed report and its published page always say the same thing.
+The HTML rules exist because a report can carry text an adapter supplied, such as the owner of a failed claim. A report that put markup there would otherwise publish it on this site's origin. The rule refuses the report rather than escaping it, so a committed report and its published page always say the same thing. The check renders the page instead of searching the markdown for tags, because markdown has too many ways to produce markup that a pattern over the source misses: escaped backticks that look like a code span, a fence indented far enough to be ordinary text, `attr_list` attributes and `javascript:` links all got past the first version. The renderer is the Python-Markdown and pymdown-extensions versions that the pinned Zensical uses, and a test holds the extension list to `zensical.toml`.
 
 ## Building it locally
 

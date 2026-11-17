@@ -438,6 +438,8 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "markdown" },
+    { name = "pymdown-extensions" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
@@ -455,6 +457,8 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "markdown", specifier = "==3.11.3" },
+    { name = "pymdown-extensions", specifier = "==13.1" },
     { name = "pytest", specifier = ">=8" },
     { name = "pytest-cov", specifier = ">=5" },
     { name = "ruff", specifier = ">=0.6" },

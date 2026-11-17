@@ -126,7 +126,8 @@ def test_a_link_out_of_the_repository_is_refused(tmp_path):
     assert err.value.code == site_source.SITE_LINK.code
 
 
-# Markup checks
+# Markup checks. A page is checked as the site will render it, with the site's markdown
+# extensions, so the checks see what a browser would and not a guess at it from the source.
 
 
 @pytest.mark.parametrize("text", [
@@ -134,36 +135,80 @@ def test_a_link_out_of_the_repository_is_refused(tmp_path):
     "a `<dir>` in a code span\n",
     "``a <b> in a double span``\n",
     "```\n<script>in a fence</script>\n```\n",
-    "an autolink <https://bakobo.github.io/x/>\n",
+    "an autolink <https://bakobo.github.io/x/> and <mailto:a@example.com>\n",
+    "[rel](results/x.md) [abs](https://example.com/a) [frag](#here) ![img](plot.svg)\n",
+    "| a | b |\n|---|---:|\n| 1 | 2 |\n",
+    "!!! note\n    An admonition.\n",
+    "```python\nprint(1)\n```\n",
+    "## Heading {: #custom-id .some-class }\n",
 ])
-def test_markup_without_raw_html_passes(text):
+def test_markup_that_renders_inert_passes(text):
     check_markup(text, "docs/x.md")
 
 
 @pytest.mark.parametrize("text", [
     "<script>alert(1)</script>\n",
     "text <img src=x onerror=alert(1)>\n",
-    "a </div> closer\n",
+    "a <iframe src=x></iframe>\n",
     "a <!-- comment -->\n",
     "```\nfenced\n```\n<iframe></iframe>\n",
+    # The hostile pass's inputs on #7: escaped backticks are not a code span, four spaces before
+    # a fence make indented code and not a fence, attr_list writes attributes, and a link may
+    # carry any scheme.
+    "\\`<img src=x onerror=alert(1)>\\`\n",
+    "    ```\n<img src=x onerror=alert(1)>\n",
+    '![x](plot.svg){: onload="alert(1)" }\n',
+    "[click](javascript:alert)\n",
+    "[click](JaVa\tScript:alert)\n",
+    '[x](https://example.com){: href="javascript:alert(1)" }\n',
+    '[x](data:text/html,hi)\n',
+    '| a |\n|---|\n| b |\n{: style="background:url(x)" }\n',
+    '<p style="color: red">x</p>\n',
+    "<!DOCTYPE html>\n",
+    "<?php echo 1; ?>\n",
+    "<![CDATA[x]]>\n",
+    "<script>one</script>\n\n<iframe>two</iframe>\n",
 ])
-def test_raw_html_is_refused(text):
+def test_markup_that_could_run_code_is_refused(text):
     with pytest.raises(BakoboError) as err:
         check_markup(text, "results/r/report.md")
     assert err.value.code == site_source.SITE_HTML.code
     assert "results/r/report.md" in str(err.value)
 
 
+def test_the_extensions_checked_are_the_sites():
+    """check_markup renders with the extensions zensical.toml configures; a change to one without
+    the other would check a page the site does not publish."""
+    import tomllib
+
+    config = tomllib.loads((REPO / "zensical.toml").read_text())["project"]["markdown_extensions"]
+    names = set()
+    for key, value in config.items():
+        if key == "pymdownx":
+            names |= {f"pymdownx.{sub}" for sub in value}
+        else:
+            names.add(key)
+    assert names == set(site_source.EXTENSIONS)
+
+
 def test_a_plain_svg_passes():
-    check_svg('<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0"/></svg>', "results/p.svg")
+    check_svg('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
+              '<defs><path id="p" d="M0 0"/></defs><use xlink:href="#p"/></svg>', "results/p.svg")
 
 
 @pytest.mark.parametrize("svg", [
     "<svg><script>alert(1)</script></svg>",
-    "<svg><SCRIPT>x</SCRIPT></svg>",
+    '<svg xmlns="http://www.w3.org/2000/svg"><SCRIPT>x</SCRIPT></svg>',
+    '<svg xmlns:s="http://www.w3.org/2000/svg"><s:script>alert(1)</s:script></svg>',
     '<svg onload="alert(1)"/>',
+    '<svg xmlns:e="urn:x"><g e:onclick="alert(1)"/></svg>',
     '<svg><a href="javascript:alert(1)">x</a></svg>',
+    '<svg xmlns:xlink="http://www.w3.org/1999/xlink"><a xlink:href=" JAVASCRIPT:x">x</a></svg>',
     "<svg><foreignObject><p>x</p></foreignObject></svg>",
+    '<svg><set attributeName="href" to="javascript:alert(1)"/></svg>',
+    '<svg><animate attributeName="href" values="javascript:alert(1)"/></svg>',
+    '<!DOCTYPE svg [<!ENTITY x "y">]><svg>&x;</svg>',
+    "<svg><unclosed></svg>",
 ])
 def test_an_svg_that_can_run_code_is_refused(svg):
     with pytest.raises(BakoboError) as err:

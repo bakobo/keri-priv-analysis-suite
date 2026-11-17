@@ -12,19 +12,25 @@ GitHub's own rendering would hide until someone clicks it.
 
 Nothing here renders results: each committed run's report.md is written by `kpa report` from its
 results.json, and is published as it is. Text in a report can come from an adapter (a failed
-claim's owner, say), so every published page is refused if it carries raw HTML outside code, and
-every published SVG if it carries anything that can run. The output is the same bytes for the same
-tree.
+claim's owner, say), so each published page is rendered here with the site's own markdown
+extensions and refused unless every element, attribute and URL scheme in the result is on a short
+allow-list, and each published SVG is parsed and refused if it holds anything that can run. Both
+checks read what a browser would get rather than patterns in the source, because the source-level
+version missed escaped backticks, indented fences, attr_list attributes and javascript: links
+(the hostile pass on #7). The output is the same bytes for the same tree.
 """
 
 import argparse
+import html.parser
 import os
 import posixpath
 import re
 import shutil
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
+import markdown
 from bakobo.errors import BakoboError, ErrorCode
 
 REPO_URL = "https://github.com/bakobo/keri-priv-analysis-suite"
@@ -58,16 +64,17 @@ SITE_LINK = ErrorCode(
 )
 SITE_HTML = ErrorCode(
     "e.rule.markup.site-raw-html.f",
-    "A published page carries raw HTML.",
-    detail="{where} has {snippet!r} outside code. Published pages are markdown only, so text an "
-    "adapter supplied can never become markup on the site.",
+    "A published page would render markup outside the site's allow-list.",
+    detail="{where} renders to {snippet}, which is not an element, attribute or link the site "
+    "publishes. Pages are held to a short allow-list so that text an adapter supplied can never "
+    "become active markup on the site.",
     args=("where", "snippet"),
-    hint="Put it in backticks, or reword it without angle brackets.",
+    hint="Put raw HTML in backticks, drop the attribute list, or link with http, https or mailto.",
 )
 SITE_SVG = ErrorCode(
     "e.rule.markup.site-svg-active.f",
     "A published SVG carries something that can run code.",
-    detail="{where} contains {snippet!r}. A published SVG may hold only drawing.",
+    detail="{where} contains {snippet}. A published SVG may hold only drawing.",
     args=("where", "snippet"),
     hint="Regenerate the plot without scripts, event handlers or embedded HTML.",
 )
@@ -80,17 +87,14 @@ SITE_ARGS = ErrorCode(
 
 _LINK = re.compile(r"\]\(([^()\s]+)((?:\s+\"[^\"]*\")?)\)")
 _SCHEME = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
-_FENCE = re.compile(r"^\s*(```|~~~)")
-_CODE_SPAN = re.compile(r"(`+)(?:(?!\1).)+?\1")
-_AUTOLINK = re.compile(r"<(?:https?|mailto):[^<>\s]+>")
-_TAG = re.compile(r"<[A-Za-z!/?][^>\n]{0,40}")
-_ACTIVE_SVG = re.compile(r"<script|<foreignobject|\son[a-z]+\s*=|javascript:", re.IGNORECASE)
+# A fence opens with at most three spaces of indent; four make indented code instead.
+_FENCE = re.compile(r"^ {0,3}(```|~~~)")
 
 
-def _lines_outside_fences(markdown: str):
-    """Each line of `markdown` with its number and whether it is inside a fenced code block."""
+def _lines_outside_fences(text: str):
+    """Each line of the markdown `text` with its number and whether it is in a fenced code block."""
     fenced = False
-    for number, line in enumerate(markdown.splitlines(keepends=True), start=1):
+    for number, line in enumerate(text.splitlines(keepends=True), start=1):
         if _FENCE.match(line):
             fenced = not fenced
             yield number, line, True
@@ -126,12 +130,13 @@ def _rewrite_target(url: str, source: str, target: str, repo: Path, where: str) 
     return posixpath.relpath(new, start) + hash_ + fragment
 
 
-def rewrite_links(markdown: str, source: str, target: str, repo) -> str:
-    """Rewrite the inline links and images in `markdown`, a file at repository path `source` that
-    will live at `target` in the site source. Fenced code blocks are left as they are."""
+def rewrite_links(text: str, source: str, target: str, repo) -> str:
+    """Rewrite the inline links and images in the markdown `text`, a file at repository path
+    `source` that will live at `target` in the site source. Fenced code blocks are left as they
+    are."""
     repo = Path(repo)
     out = []
-    for number, line, fenced in _lines_outside_fences(markdown):
+    for number, line, fenced in _lines_outside_fences(text):
         if not fenced:
             def link(m, where=f"{source}:{number}"):
                 return f"]({_rewrite_target(m.group(1), source, target, repo, where)}{m.group(2)})"
@@ -141,23 +146,120 @@ def rewrite_links(markdown: str, source: str, target: str, repo) -> str:
     return "".join(out)
 
 
-def check_markup(markdown: str, source: str) -> None:
-    """Refuse `markdown` if it has raw HTML outside fenced blocks, code spans and autolinks."""
-    for number, line, fenced in _lines_outside_fences(markdown):
-        if fenced:
-            continue
-        bare = _AUTOLINK.sub("", _CODE_SPAN.sub("", line))
-        match = _TAG.search(bare)
-        if match:
-            raise SITE_HTML(where=f"{source}:{number}", snippet=match.group(0))
+# The markdown extensions the site renders with, as zensical.toml configures them; a test holds the
+# two together.
+EXTENSIONS = {
+    "admonition": {},
+    "attr_list": {},
+    "tables": {},
+    "toc": {"permalink": True},
+    "pymdownx.highlight": {"anchor_linenums": True},
+    "pymdownx.superfences": {},
+}
+# What a rendered page may contain. Everything else is refused rather than escaped, so a committed
+# report and its published page always say the same thing.
+_ALLOWED_TAGS = frozenset({
+    "a", "abbr", "blockquote", "br", "code", "dd", "del", "details", "div", "dl", "dt", "em",
+    "h1", "h2", "h3", "h4", "h5", "h6", "hr", "img", "li", "ol", "p", "pre", "span", "strong",
+    "sub", "summary", "sup", "table", "tbody", "td", "th", "thead", "tr", "ul",
+})
+_ALLOWED_ATTRS = frozenset({
+    "href", "src", "alt", "title", "class", "id", "name", "style", "colspan", "rowspan", "open",
+})
+_URL_ATTRS = frozenset({"href", "src"})
+_SAFE_SCHEMES = frozenset({"http", "https", "mailto"})
+_TABLE_ALIGN = re.compile(r"text-align:\s*(left|right|center);?")
+_URL_SCHEME = re.compile(r"^([a-z][a-z0-9+.-]*):")
+_STRIP = re.compile(r"[\x00-\x20\x7f]")
+
+
+def _scheme(url: str) -> str | None:
+    """The scheme a browser would read from `url`, which ignores ASCII whitespace and control
+    characters and case, or None for a relative URL."""
+    match = _URL_SCHEME.match(_STRIP.sub("", url).lower())
+    return match.group(1) if match else None
+
+
+class _Inspector(html.parser.HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.refused: str | None = None
+
+    def _refuse(self, what: str) -> None:
+        if self.refused is None:
+            self.refused = what
+
+    def handle_starttag(self, tag, attrs) -> None:
+        if tag not in _ALLOWED_TAGS:
+            self._refuse(f"a <{tag}> element")
+        for name, value in attrs:
+            value = value or ""
+            if name not in _ALLOWED_ATTRS:
+                self._refuse(f"a {name} attribute on <{tag}>")
+            elif name == "style" and not _TABLE_ALIGN.fullmatch(value.strip()):
+                self._refuse(f"a style attribute {value!r} on <{tag}>")
+            elif name in _URL_ATTRS and _scheme(value) not in (None, *_SAFE_SCHEMES):
+                self._refuse(f"a {_scheme(value)}: URL in {name} on <{tag}>")
+
+    def handle_comment(self, data) -> None:
+        self._refuse("an HTML comment")
+
+    def handle_decl(self, decl) -> None:
+        self._refuse("a markup declaration")
+
+    def handle_pi(self, data) -> None:
+        self._refuse("a processing instruction")
+
+    def unknown_decl(self, data) -> None:
+        self._refuse("a markup declaration")
+
+
+def check_markup(text: str, source: str) -> None:
+    """Refuse the markdown `text` unless it renders, with the site's extensions, to allowed
+    elements and attributes only, linking with no scheme or http, https or mailto."""
+    rendered = markdown.markdown(text, extensions=list(EXTENSIONS),
+                                 extension_configs=EXTENSIONS)
+    inspector = _Inspector()
+    inspector.feed(rendered)
+    inspector.close()
+    if inspector.refused is not None:
+        raise SITE_HTML(where=source, snippet=inspector.refused)
+
+
+# SVG elements that can run code or rewrite a link into one, by local name, lowercased.
+_ACTIVE_SVG = frozenset({"script", "foreignobject", "set", "animate", "animatemotion",
+                         "animatetransform", "iframe", "embed", "object", "handler", "listener"})
+
+
+# matplotlib writes an external DOCTYPE, which declares nothing; an entity or an internal subset
+# could define text the parser would substitute.
+_DECLARATION = re.compile(r"<!ENTITY|<!DOCTYPE[^>]*\[", re.IGNORECASE)
+
+
+def _local(name: str) -> str:
+    return name.rpartition("}")[2].rpartition(":")[2].lower()
 
 
 def check_svg(svg: str, source: str) -> None:
-    """Refuse an SVG that carries a script, an event handler, a javascript: URL or embedded
-    HTML."""
-    match = _ACTIVE_SVG.search(svg)
-    if match:
-        raise SITE_SVG(where=source, snippet=match.group(0))
+    """Refuse an SVG that is not well-formed, declares entities or an internal DTD subset, or holds
+    an element that can run code, an event-handler attribute or a link with a scheme other than
+    http, https or mailto. Names are compared by local name, so a namespace prefix hides nothing."""
+    if _DECLARATION.search(svg):
+        raise SITE_SVG(where=source, snippet="an entity declaration or internal DTD subset")
+    try:
+        root = ET.fromstring(svg)
+    except ET.ParseError as exc:
+        raise SITE_SVG(where=source, snippet=f"XML that does not parse ({exc})") from None
+    for element in root.iter():
+        tag = _local(element.tag)
+        if tag in _ACTIVE_SVG:
+            raise SITE_SVG(where=source, snippet=f"a <{tag}> element")
+        for name, value in element.attrib.items():
+            attr = _local(name)
+            if attr.startswith("on"):
+                raise SITE_SVG(where=source, snippet=f"a {attr} attribute")
+            if attr == "href" and _scheme(value) not in (None, *_SAFE_SCHEMES):
+                raise SITE_SVG(where=source, snippet=f"a {_scheme(value)}: URL")
 
 
 def _files(root: Path, repo: Path):
@@ -174,9 +276,9 @@ def _publish(path: Path, source: str, target: str, out: Path, repo: Path) -> Non
     destination = out / target
     destination.parent.mkdir(parents=True, exist_ok=True)
     if path.suffix == ".md":
-        markdown = path.read_text(encoding="utf-8")
-        check_markup(markdown, source)
-        destination.write_text(rewrite_links(markdown, source, target, repo), encoding="utf-8")
+        page = rewrite_links(path.read_text(encoding="utf-8"), source, target, repo)
+        check_markup(page, source)
+        destination.write_text(page, encoding="utf-8")
         return
     if path.suffix == ".svg":
         check_svg(path.read_text(encoding="utf-8"), source)

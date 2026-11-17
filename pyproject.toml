@@ -24,6 +24,10 @@ dev = [
     "pytest>=8",
     "pytest-cov>=5",
     "ruff>=0.6",
+    # tools/site_source.py renders each page as the site will, to check it; pinned to the versions
+    # the site group's Zensical resolves, so the check sees the same output the site publishes.
+    "markdown==3.11.3",
+    "pymdown-extensions==13.1",
 ]
 # The documentation site's generator, kept out of the suite's dependencies and out of dev. Zensical
 # is pre-1.0, so it is pinned exactly; see zensical.toml.
