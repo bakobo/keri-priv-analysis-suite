@@ -87,19 +87,28 @@ SITE_ARGS = ErrorCode(
 
 _LINK = re.compile(r"\]\(([^()\s]+)((?:\s+\"[^\"]*\")?)\)")
 _SCHEME = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
-# A fence opens with at most three spaces of indent; four make indented code instead.
-_FENCE = re.compile(r"^ {0,3}(```|~~~)")
+# A fence opens with at most three spaces of indent (four make indented code instead) and three or
+# more of one character, and closes only on a run of the same character at least as long with
+# nothing after it, as in CommonMark.
+_FENCE = re.compile(r"^ {0,3}(`{3,}|~{3,})(.*)$")
 
 
 def _lines_outside_fences(text: str):
     """Each line of the markdown `text` with its number and whether it is in a fenced code block."""
-    fenced = False
+    opener = None
     for number, line in enumerate(text.splitlines(keepends=True), start=1):
-        if _FENCE.match(line):
-            fenced = not fenced
+        match = _FENCE.match(line.rstrip("\r\n"))
+        if opener is None and match:
+            opener = match.group(1)
+            yield number, line, True
+        elif opener is not None:
+            closes = (match is not None and match.group(1)[0] == opener[0]
+                      and len(match.group(1)) >= len(opener) and not match.group(2).strip())
+            if closes:
+                opener = None
             yield number, line, True
         else:
-            yield number, line, fenced
+            yield number, line, False
 
 
 def _site_path(resolved: str) -> str | None:
@@ -231,6 +240,8 @@ _ACTIVE_SVG = frozenset({"script", "foreignobject", "set", "animate", "animatemo
                          "animatetransform", "iframe", "embed", "object", "handler", "listener"})
 
 
+# CSS that loads from elsewhere: an @import, or a url() that is not a fragment of this document.
+_EXTERNAL_CSS = re.compile(r"@import|url\(\s*(?!\s|['\"]?\s*#)", re.IGNORECASE)
 # matplotlib writes an external DOCTYPE, which declares nothing; an entity or an internal subset
 # could define text the parser would substitute.
 _DECLARATION = re.compile(r"<!ENTITY|<!DOCTYPE[^>]*\[", re.IGNORECASE)
@@ -242,8 +253,9 @@ def _local(name: str) -> str:
 
 def check_svg(svg: str, source: str) -> None:
     """Refuse an SVG that is not well-formed, declares entities or an internal DTD subset, or holds
-    an element that can run code, an event-handler attribute or a link with a scheme other than
-    http, https or mailto. Names are compared by local name, so a namespace prefix hides nothing."""
+    an element that can run code, an event-handler attribute, a link with a scheme other than
+    http, https or mailto, or CSS that loads from elsewhere. Names are compared by local name, so a
+    namespace prefix hides nothing."""
     if _DECLARATION.search(svg):
         raise SITE_SVG(where=source, snippet="an entity declaration or internal DTD subset")
     try:
@@ -254,12 +266,17 @@ def check_svg(svg: str, source: str) -> None:
         tag = _local(element.tag)
         if tag in _ACTIVE_SVG:
             raise SITE_SVG(where=source, snippet=f"a <{tag}> element")
+        if tag == "style" and _EXTERNAL_CSS.search(element.text or ""):
+            raise SITE_SVG(where=source, snippet="a stylesheet that loads from elsewhere")
         for name, value in element.attrib.items():
             attr = _local(name)
             if attr.startswith("on"):
                 raise SITE_SVG(where=source, snippet=f"a {attr} attribute")
             if attr == "href" and _scheme(value) not in (None, *_SAFE_SCHEMES):
                 raise SITE_SVG(where=source, snippet=f"a {_scheme(value)}: URL")
+            if _EXTERNAL_CSS.search(value):
+                raise SITE_SVG(where=source,
+                               snippet=f"a {attr} attribute that loads from elsewhere")
 
 
 def _files(root: Path, repo: Path):

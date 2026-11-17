@@ -109,6 +109,26 @@ def test_a_link_inside_a_fenced_block_is_left_alone(tmp_path):
         "```\n[x](missing.md)\n```\n[y](plan.md)\n")
 
 
+@pytest.mark.parametrize("text", [
+    "```\n~~~\n```\n[x](missing.md)\n",
+    "````\n```\n````\n[x](missing.md)\n",
+    "~~~\n```python\n~~~\n[x](missing.md)\n",
+])
+def test_a_fence_closes_only_on_its_own_marker(tmp_path, text):
+    """A fence of the other character, or a shorter one, is code inside the block and does not
+    close it, so the link after the real close is still checked (Copilot on #7)."""
+    repo = _repo(tmp_path)
+    with pytest.raises(BakoboError) as err:
+        rewrite_links(text, "README.md", "index.md", repo)
+    assert err.value.code == site_source.SITE_LINK.code
+
+
+def test_a_fence_with_an_info_string_does_not_close_a_block(tmp_path):
+    repo = _repo(tmp_path)
+    text = "```\n```python\n[x](missing.md)\n```\n"
+    assert rewrite_links(text, "README.md", "index.md", repo) == text
+
+
 def test_a_link_to_a_missing_path_is_refused(tmp_path):
     repo = _repo(tmp_path)
     with pytest.raises(BakoboError) as err:
@@ -193,7 +213,9 @@ def test_the_extensions_checked_are_the_sites():
 
 def test_a_plain_svg_passes():
     check_svg('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
-              '<defs><path id="p" d="M0 0"/></defs><use xlink:href="#p"/></svg>', "results/p.svg")
+              '<style>*{stroke-linejoin: round}</style><defs><path id="p" d="M0 0"/></defs>'
+              '<use xlink:href="#p" clip-path="url(#c)" style="fill: url( \'#g\')"/></svg>',
+              "results/p.svg")
 
 
 @pytest.mark.parametrize("svg", [
@@ -209,6 +231,11 @@ def test_a_plain_svg_passes():
     '<svg><animate attributeName="href" values="javascript:alert(1)"/></svg>',
     '<!DOCTYPE svg [<!ENTITY x "y">]><svg>&x;</svg>',
     "<svg><unclosed></svg>",
+    # A second reader of the fix: CSS in an SVG can load from elsewhere without a script.
+    '<svg><style>@import "https://evil.example/s.css";</style></svg>',
+    "<svg><style>g { fill: url( 'https://evil.example/p.svg#x' ) }</style></svg>",
+    '<svg><g style="background:URL(https://evil.example/t.png)"/></svg>',
+    '<svg><rect fill="url(https://evil.example/p.svg#g)"/></svg>',
 ])
 def test_an_svg_that_can_run_code_is_refused(svg):
     with pytest.raises(BakoboError) as err:
