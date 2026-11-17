@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/bakobo/keri-priv-analysis-suite/actions/workflows/ci.yml/badge.svg)](https://github.com/bakobo/keri-priv-analysis-suite/actions/workflows/ci.yml)
 
-Measures what a KERI/ACDC deployment lets each adversary join about a citizen, on any implementation. A deployment that issues bulk credential copies relies on mitigations such as one registry per credential and a fresh holder AID per copy to resist registry, timestamp, batch, AID and network-observation correlation. The suite tests those mitigations: for each party (colluding verifiers, a hacker or insider who obtains State data, a government office that compels disclosure, a network observer) it reports what that party can join, how many identifying bits the join yields per citizen, how certain it is and how complete. It never claims that something cannot be linked.
+Measures what a KERI/ACDC deployment lets each adversary correlate about a citizen, on any implementation. A deployment that issues bulk credential copies relies on mitigations such as one registry per credential and a fresh holder AID per copy to resist registry, timestamp, batch, AID and network-observation correlation. The suite tests those mitigations: for each party (colluding verifiers, a hacker or insider who obtains State data, a government office that compels disclosure, a network observer) it reports what that party can correlate, how many identifying bits the correlation yields per citizen, how certain it is and how complete. It never claims that something cannot be linked.
 
 **Status: incubating.** The suite is developed at [Bakobo](https://bakobo.com) with the intention of contributing it to the KERI Foundation.
 
@@ -31,7 +31,7 @@ uv run kpa run scenarios/smoke.toml --out runs/smoke
 
 To run a scenario on a real stack, run it from that adapter's project: `cd adapters/keria && uv run kpa run ../../scenarios/privacy-keria.toml --out <dir>`.
 
-The run directory holds the scenario, the compartments every attack read, the ground truth kept apart from them, each party's joins and scores, `results.json`, and `report.md` and `report.json` generated from them. `kpa report <run-dir>` regenerates the report; `kpa check <scenario>` runs only the adapter contract suite. Git holds each scored run's reports and `results.json`, the sweep summaries and [`results/raw-exports.sha256`](results/raw-exports.sha256), which hashes the raw exports kept outside Git. A generator run is deterministic, so rerunning its scenario reproduces it.
+The run directory holds the scenario, the compartments every attack read, the ground truth kept apart from them, each party's correlations and scores, `results.json`, and `report.md` and `report.json` generated from them. `kpa report <run-dir>` regenerates the report; `kpa check <scenario>` runs only the adapter contract suite. Git holds each scored run's reports and `results.json`, the sweep summaries and [`results/raw-exports.sha256`](results/raw-exports.sha256), which hashes the raw exports kept outside Git. A generator run is deterministic, so rerunning its scenario reproduces it.
 
 ## What is in it
 
