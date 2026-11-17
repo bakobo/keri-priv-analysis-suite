@@ -113,6 +113,8 @@ def test_a_link_inside_a_fenced_block_is_left_alone(tmp_path):
     "```\n~~~\n```\n[x](missing.md)\n",
     "````\n```\n````\n[x](missing.md)\n",
     "~~~\n```python\n~~~\n[x](missing.md)\n",
+    # A backtick in a backtick fence's info string makes the line inline code, not a fence.
+    "```bad`\n[x](missing.md)\n",
 ])
 def test_a_fence_closes_only_on_its_own_marker(tmp_path, text):
     """A fence of the other character, or a shorter one, is code inside the block and does not
@@ -212,6 +214,10 @@ def test_the_extensions_checked_are_the_sites():
 
 
 def test_a_plain_svg_passes():
+    check_svg('<?xml version="1.0" encoding="utf-8" standalone="no"?>\n'
+              '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"\n'
+              '  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n'
+              '<svg xmlns="http://www.w3.org/2000/svg"/>', "results/p.svg")
     check_svg('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
               '<style>*{stroke-linejoin: round}</style><defs><path id="p" d="M0 0"/></defs>'
               '<use xlink:href="#p" clip-path="url(#c)" style="fill: url( \'#g\')"/></svg>',
@@ -236,6 +242,15 @@ def test_a_plain_svg_passes():
     "<svg><style>g { fill: url( 'https://evil.example/p.svg#x' ) }</style></svg>",
     '<svg><g style="background:URL(https://evil.example/t.png)"/></svg>',
     '<svg><rect fill="url(https://evil.example/p.svg#g)"/></svg>',
+    # The fix pass on #7: CSS escapes spell any word, and a stylesheet instruction loads CSS.
+    '<svg><style>@\\69mport "https://evil.example/a.css";</style></svg>',
+    "<svg><style>rect{fill:u\\72l(https://evil.example/x.svg)}</style></svg>",
+    '<svg><rect style="fill:u\\72l(https://evil.example/x.svg)"/></svg>',
+    '<?xml-stylesheet type="text/css" href="https://evil.example/a.css"?><svg/>',
+    '<?xml version="1.0"?><?xml-stylesheet href="https://evil.example/a.css"?><svg/>',
+    '<svg><image href="https://evil.example/t.png"/></svg>',
+    '<svg xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="https://e.example/a#b"/></svg>',
+    '<svg><rect filter="url(#f)"/></svg>',
 ])
 def test_an_svg_that_can_run_code_is_refused(svg):
     with pytest.raises(BakoboError) as err:

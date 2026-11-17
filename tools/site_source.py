@@ -98,7 +98,8 @@ def _lines_outside_fences(text: str):
     opener = None
     for number, line in enumerate(text.splitlines(keepends=True), start=1):
         match = _FENCE.match(line.rstrip("\r\n"))
-        if opener is None and match:
+        # A backtick fence's info string may not hold a backtick; such a line is inline code.
+        if opener is None and match and not (match.group(1)[0] == "`" and "`" in match.group(2)):
             opener = match.group(1)
             yield number, line, True
         elif opener is not None:
@@ -235,16 +236,31 @@ def check_markup(text: str, source: str) -> None:
         raise SITE_HTML(where=source, snippet=inspector.refused)
 
 
-# SVG elements that can run code or rewrite a link into one, by local name, lowercased.
-_ACTIVE_SVG = frozenset({"script", "foreignobject", "set", "animate", "animatemotion",
-                         "animatetransform", "iframe", "embed", "object", "handler", "listener"})
-
-
-# CSS that loads from elsewhere: an @import, or a url() that is not a fragment of this document.
-_EXTERNAL_CSS = re.compile(r"@import|url\(\s*(?!\s|['\"]?\s*#)", re.IGNORECASE)
+# What a published SVG may contain, by local name, lowercased: the drawing vocabulary a plotting
+# library writes, and nothing that can run, animate, embed or fetch. An allow-list, because each
+# list of things to refuse that was tried here (#7) was outrun by another spelling.
+_SVG_ELEMENTS = frozenset({
+    "svg", "g", "defs", "path", "rect", "circle", "ellipse", "line", "polyline", "polygon",
+    "text", "tspan", "clippath", "use", "style", "title", "desc", "lineargradient",
+    "radialgradient", "stop", "metadata", "rdf", "work", "agent", "creator", "format", "type",
+    "date", "description",
+})
+_SVG_ATTRIBUTES = frozenset({
+    "id", "class", "style", "transform", "d", "x", "y", "width", "height", "viewbox", "version",
+    "preserveaspectratio", "href", "clip-path", "clippathunits", "fill", "fill-opacity",
+    "fill-rule", "clip-rule", "stroke", "stroke-width", "stroke-opacity", "stroke-linecap",
+    "stroke-linejoin", "stroke-dasharray", "stroke-dashoffset", "stroke-miterlimit", "opacity",
+    "points", "cx", "cy", "r", "rx", "ry", "x1", "y1", "x2", "y2", "dx", "dy", "font-family",
+    "font-size", "font-weight", "font-style", "text-anchor", "dominant-baseline", "offset",
+    "stop-color", "stop-opacity", "gradientunits", "gradienttransform", "space", "resource", "type",
+})
+# CSS may reference only this document: no backslash, which CSS reads as an escape that can spell
+# any word; no at-rule; and no url() other than a # reference.
+_UNSAFE_CSS = re.compile(r"\\|@|url\(\s*(?!\s|['\"]?\s*#)", re.IGNORECASE)
 # matplotlib writes an external DOCTYPE, which declares nothing; an entity or an internal subset
 # could define text the parser would substitute.
 _DECLARATION = re.compile(r"<!ENTITY|<!DOCTYPE[^>]*\[", re.IGNORECASE)
+_XML_DECLARATION = re.compile(r"\s*<\?xml\s[^?]*\?>")
 
 
 def _local(name: str) -> str:
@@ -252,31 +268,34 @@ def _local(name: str) -> str:
 
 
 def check_svg(svg: str, source: str) -> None:
-    """Refuse an SVG that is not well-formed, declares entities or an internal DTD subset, or holds
-    an element that can run code, an event-handler attribute, a link with a scheme other than
-    http, https or mailto, or CSS that loads from elsewhere. Names are compared by local name, so a
-    namespace prefix hides nothing."""
+    """Refuse an SVG that is not well-formed, declares entities or an internal DTD subset, carries
+    a processing instruction other than the XML declaration, or holds an element or attribute off
+    the allow-list, a link other than a # reference, or CSS that could load from elsewhere. Names
+    are compared by local name, so a namespace prefix hides nothing."""
     if _DECLARATION.search(svg):
         raise SITE_SVG(where=source, snippet="an entity declaration or internal DTD subset")
+    declaration = _XML_DECLARATION.match(svg)
+    if "<?" in svg[declaration.end() if declaration else 0:]:
+        raise SITE_SVG(where=source, snippet="a processing instruction")
     try:
         root = ET.fromstring(svg)
     except ET.ParseError as exc:
         raise SITE_SVG(where=source, snippet=f"XML that does not parse ({exc})") from None
     for element in root.iter():
         tag = _local(element.tag)
-        if tag in _ACTIVE_SVG:
+        if tag not in _SVG_ELEMENTS:
             raise SITE_SVG(where=source, snippet=f"a <{tag}> element")
-        if tag == "style" and _EXTERNAL_CSS.search(element.text or ""):
-            raise SITE_SVG(where=source, snippet="a stylesheet that loads from elsewhere")
+        if tag == "style" and _UNSAFE_CSS.search(element.text or ""):
+            raise SITE_SVG(where=source, snippet="a stylesheet that could load from elsewhere")
         for name, value in element.attrib.items():
             attr = _local(name)
-            if attr.startswith("on"):
+            if attr not in _SVG_ATTRIBUTES:
                 raise SITE_SVG(where=source, snippet=f"a {attr} attribute")
-            if attr == "href" and _scheme(value) not in (None, *_SAFE_SCHEMES):
-                raise SITE_SVG(where=source, snippet=f"a {_scheme(value)}: URL")
-            if _EXTERNAL_CSS.search(value):
+            if attr == "href" and not value.startswith("#"):
+                raise SITE_SVG(where=source, snippet=f"a link to {value[:60]!r}")
+            if attr != "resource" and _UNSAFE_CSS.search(value):
                 raise SITE_SVG(where=source,
-                               snippet=f"a {attr} attribute that loads from elsewhere")
+                               snippet=f"a {attr} attribute that could load from elsewhere")
 
 
 def _files(root: Path, repo: Path):
