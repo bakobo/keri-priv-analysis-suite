@@ -14,7 +14,7 @@ The site renders only what is committed. It runs no scenario and no adapter, and
 
 - a page links to a path the repository does not have, or to one outside it, or the link goes through a symbolic link;
 - a published page, rendered with the site's own markdown extensions, contains an element, an attribute or a link scheme outside a short allow-list (the elements markdown produces, no event handlers, inline style only for table alignment, and links that are relative or use `http`, `https` or `mailto`);
-- a published SVG does not parse, declares entities, carries a processing instruction other than the XML declaration, or holds an element or attribute outside the drawing vocabulary a plotting library writes, a link other than a `#` reference, or CSS with an at-rule, a backslash escape or a `url()` other than a `#` reference, whatever namespace prefix it uses;
+- a published SVG does not parse, declares entities, carries a processing instruction other than the XML declaration, or holds an element or attribute outside the drawing vocabulary a plotting library writes, a link other than a `#` reference, or a stylesheet or `style` attribute that is anything but plain declarations (no quotes, no backslash and no function except `url(#id)`), whatever namespace prefix it uses;
 - a file under `docs/` would take the place of a generated page (`docs/index.md` or `docs/results/`);
 - the output directory exists and the tool did not make it.
 

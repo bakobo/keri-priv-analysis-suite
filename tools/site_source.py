@@ -254,13 +254,23 @@ _SVG_ATTRIBUTES = frozenset({
     "font-size", "font-weight", "font-style", "text-anchor", "dominant-baseline", "offset",
     "stop-color", "stop-opacity", "gradientunits", "gradienttransform", "space", "resource", "type",
 })
-# CSS may reference only this document: no backslash, which CSS reads as an escape that can spell
-# any word; no at-rule; and no url() other than a # reference.
+# An attribute value may reference only this document: no backslash, which CSS reads as an escape
+# that can spell any word; no at-rule; and no url() other than a # reference.
 _UNSAFE_CSS = re.compile(r"\\|@|url\(\s*(?!\s|['\"]?\s*#)", re.IGNORECASE)
+# A stylesheet or a style attribute is held tighter, to plain declarations: once each url(#id) is
+# removed, nothing is left but names, numbers, colours, units and punctuation. No quote, no
+# parenthesis and no backslash means no string, no function (image-set(), say) and no escape, which
+# is everything CSS needs to fetch from elsewhere.
+_CSS_FRAGMENT_REF = re.compile(r"url\(#[\w.-]+\)")
+_PLAIN_CSS = re.compile(r"[A-Za-z0-9#.,%:;{}*\s_-]*")
 # matplotlib writes an external DOCTYPE, which declares nothing; an entity or an internal subset
 # could define text the parser would substitute.
 _DECLARATION = re.compile(r"<!ENTITY|<!DOCTYPE[^>]*\[", re.IGNORECASE)
 _XML_DECLARATION = re.compile(r"\s*<\?xml\s[^?]*\?>")
+
+
+def _plain_css(css: str) -> bool:
+    return _PLAIN_CSS.fullmatch(_CSS_FRAGMENT_REF.sub("", css)) is not None
 
 
 def _local(name: str) -> str:
@@ -285,14 +295,17 @@ def check_svg(svg: str, source: str) -> None:
         tag = _local(element.tag)
         if tag not in _SVG_ELEMENTS:
             raise SITE_SVG(where=source, snippet=f"a <{tag}> element")
-        if tag == "style" and _UNSAFE_CSS.search(element.text or ""):
-            raise SITE_SVG(where=source, snippet="a stylesheet that could load from elsewhere")
+        if tag == "style" and (len(element) or not _plain_css(element.text or "")):
+            raise SITE_SVG(where=source, snippet="a stylesheet that is not plain declarations")
         for name, value in element.attrib.items():
             attr = _local(name)
             if attr not in _SVG_ATTRIBUTES:
                 raise SITE_SVG(where=source, snippet=f"a {attr} attribute")
             if attr == "href" and not value.startswith("#"):
                 raise SITE_SVG(where=source, snippet=f"a link to {value[:60]!r}")
+            if attr == "style" and not _plain_css(value):
+                raise SITE_SVG(where=source,
+                               snippet="a style attribute that is not plain declarations")
             if attr != "resource" and _UNSAFE_CSS.search(value):
                 raise SITE_SVG(where=source,
                                snippet=f"a {attr} attribute that could load from elsewhere")

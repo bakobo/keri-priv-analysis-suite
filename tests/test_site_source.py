@@ -220,7 +220,7 @@ def test_a_plain_svg_passes():
               '<svg xmlns="http://www.w3.org/2000/svg"/>', "results/p.svg")
     check_svg('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'
               '<style>*{stroke-linejoin: round}</style><defs><path id="p" d="M0 0"/></defs>'
-              '<use xlink:href="#p" clip-path="url(#c)" style="fill: url( \'#g\')"/></svg>',
+              '<use xlink:href="#p" clip-path="url(#c)" style="fill: url(#g)"/></svg>',
               "results/p.svg")
 
 
@@ -251,6 +251,12 @@ def test_a_plain_svg_passes():
     '<svg><image href="https://evil.example/t.png"/></svg>',
     '<svg xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="https://e.example/a#b"/></svg>',
     '<svg><rect filter="url(#f)"/></svg>',
+    # The second fix pass on #7: text after a child of <style> is still stylesheet, and CSS has
+    # functions that fetch without url().
+    '<svg><style><desc/>@import "https://evil.example/a.css";</style></svg>',
+    '<svg><style>svg { background-image: image-set("https://evil.example/a.png" 1x) }</style></svg>',
+    '<svg><rect style="background-image: image-set(\'https://evil.example/a.png\' 1x)"/></svg>',
+    "<svg><style>svg { background: url( #x) }</style></svg>",
 ])
 def test_an_svg_that_can_run_code_is_refused(svg):
     with pytest.raises(BakoboError) as err:
