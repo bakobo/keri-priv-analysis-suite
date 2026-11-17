@@ -31,7 +31,7 @@ uv run kpa run scenarios/smoke.toml --out runs/smoke
 
 To run a scenario on a real stack, run it from that adapter's project: `cd adapters/keria && uv run kpa run ../../scenarios/privacy-keria.toml --out <dir>`.
 
-The run directory holds the scenario, the compartments every attack read, the ground truth kept apart from them, each party's correlations and scores, `results.json`, and `report.md` and `report.json` generated from them. `kpa report <run-dir>` regenerates the report; `kpa check <scenario>` runs only the adapter contract suite. Git holds each scored run's reports and `results.json`, the sweep summaries and [`results/raw-exports.sha256`](results/raw-exports.sha256), which hashes the raw exports kept outside Git. A generator run is deterministic, so rerunning its scenario reproduces it.
+The run directory holds the scenario, the compartments every attack read, the ground truth kept apart from them, each party's correlations and scores (under `joins/`, the name the run directory and its JSON still use), `results.json`, and `report.md` and `report.json` generated from them. `kpa report <run-dir>` regenerates the report; `kpa check <scenario>` runs only the adapter contract suite. Git holds each scored run's reports and `results.json`, the sweep summaries and [`results/raw-exports.sha256`](results/raw-exports.sha256), which hashes the raw exports kept outside Git. A generator run is deterministic, so rerunning its scenario reproduces it.
 
 ## What is in it
 
