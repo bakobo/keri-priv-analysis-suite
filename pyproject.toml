@@ -24,6 +24,15 @@ dev = [
     "pytest>=8",
     "pytest-cov>=5",
     "ruff>=0.6",
+    # tools/site_source.py renders each page as the site will, to check it; pinned to the versions
+    # the site group's Zensical resolves, so the check sees the same output the site publishes.
+    "markdown==3.11.3",
+    "pymdown-extensions==13.1",
+]
+# The documentation site's generator, kept out of the suite's dependencies and out of dev. Zensical
+# is pre-1.0, so it is pinned exactly; see zensical.toml.
+site = [
+    "zensical==0.0.69",
 ]
 
 [build-system]
@@ -37,8 +46,10 @@ allow-direct-references = true
 packages = ["src/keri_priv_analysis"]
 
 [tool.pytest.ini_options]
-addopts = "--cov=keri_priv_analysis --cov-branch --cov-report=term-missing --cov-fail-under=100"
+addopts = "--cov=keri_priv_analysis --cov=tools --cov-branch --cov-report=term-missing --cov-fail-under=100"
 testpaths = ["tests"]
+# tools/ (the site source assembler) is imported from the repository root, as scripts/ runs it.
+pythonpath = ["."]
 # pysodium, which keripy loads, trips a ctypes deprecation on Python 3.14 that is not ours.
 filterwarnings = ["ignore::DeprecationWarning:pysodium"]
 

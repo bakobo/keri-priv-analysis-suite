@@ -3,10 +3,10 @@
 These are 35 scored variants of the approved
 [`privacy-generator.toml`](../../scenarios/privacy-generator.toml). Each variant's scenario is in
 [`scenarios/`](scenarios/), and [`manifest.json`](manifest.json) lists every value, scenario
-digest and run directory. Each run's `results.json`, `report.md` and `report.json` are under
-[`runs/`](runs/). The raw run directories (compartments, ground truth and attack joins) are kept
-outside Git and hashed in the [raw-export manifest](../raw-exports.sha256); because the generator
-is deterministic, `kpa run scenarios/<variant>.toml --out <dir>` reproduces any of them.
+digest and run directory. The run directories are kept outside Git: each holds the run's
+`results.json`, `report.md` and `report.json` beside its raw exports (compartments, ground truth
+and attack joins), and the raw exports are hashed in the
+[raw-export manifest](../raw-exports.sha256). Because the generator is deterministic, `kpa run scenarios/<variant>.toml --out <dir>` reproduces any of them.
 The three countermeasure "off" values refer to the separate
 [baseline](../privacy-generator-baseline/report.md). The [comparison CSV](metrics.csv) and
 [bits and completeness plot](bits-and-completeness.svg) are derived from the runs' `results.json`

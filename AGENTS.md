@@ -108,7 +108,7 @@ specification of this suite's own tests.
 ## CI
 
 `.github/workflows/ci.yml` lints and runs the tests with the coverage gate on every push to main and every pull
-request, and `.github/workflows/adapters.yml` runs the KERIA adapter's live contract suite weekly.
+request, and `.github/workflows/adapters.yml` runs the KERIA adapter's live contract suite weekly. `.github/workflows/pages.yml` publishes the documentation site on every push to main ([`docs/site.md`](docs/site.md)), and CI builds the same site on every pull request.
 When writing or modifying a workflow, use the latest stable release of each action, pinned by
 commit, and avoid versions on deprecated Node.js runtimes. CI never needs a credential: every
 dependency is public.

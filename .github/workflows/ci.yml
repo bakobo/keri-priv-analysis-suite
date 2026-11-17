@@ -2,7 +2,9 @@ name: CI
 
 # Tests the suite's own correctness (docs/test-plan.md, Part B): lint, then the unit and generator
 # tests under the 100% branch coverage gate. Nothing here needs a running KERI stack; the KERIA
-# adapter's contract run is the scheduled job in adapters.yml.
+# adapter's contract run is the scheduled job in adapters.yml. Job `site` builds the documentation
+# site as pages.yml does, without deploying, so a broken link or raw HTML in a page fails the pull
+# request rather than the deploy.
 
 on:
   push:
@@ -31,6 +33,24 @@ jobs:
       - name: Sync dependencies
         run: uv sync --locked
       - name: Lint
-        run: uv run ruff check src tests
+        run: uv run ruff check src tests tools
       - name: Run tests (100% branch coverage gate)
         run: uv run pytest
+
+  site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          python-version: "3.14"
+          enable-cache: true
+      - name: Sync the suite and the site generator
+        run: uv sync --locked --group site
+      - name: Assemble the site source
+        run: uv run python scripts/site-source
+      - name: Build the site
+        run: uv run zensical build --clean --strict

@@ -1,0 +1,82 @@
+# The documentation site (this.i 4vdpvhcz), built by Zensical (pinned exactly in pyproject.toml's
+# site group, because it is pre-1.0) in the same style as keri-conformance-suite's. Its input is
+# plain markdown assembled by scripts/site-source into _site/src: the README as the home page, docs/
+# beside it, and the committed reports, sweep summary and plot under results/. Replacing the
+# generator means replacing this file and one build step.
+#
+#   uv sync --locked --group site
+#   uv run python scripts/site-source
+#   uv run zensical build --clean --strict
+#
+# The site is then in _site/html.
+
+[project]
+site_name = "KERI privacy analysis suite"
+site_description = "What a KERI/ACDC deployment lets each adversary join about a citizen, measured on any implementation."
+site_url = "https://bakobo.github.io/keri-priv-analysis-suite/"
+repo_url = "https://github.com/bakobo/keri-priv-analysis-suite"
+repo_name = "bakobo/keri-priv-analysis-suite"
+docs_dir = "_site/src"
+# Colours taken from keri.one, as on the conformance suite's site; the stylesheet says which.
+extra_css = ["stylesheets/kpa.css"]
+# Opens every link that leaves the site in one reused window named "spec".
+extra_javascript = ["javascripts/external-links.js"]
+site_dir = "_site/html"
+nav = [
+  { "Home" = "index.md" },
+  { "Results" = [
+    { "Scored findings" = "privacy-findings.md" },
+    { "Generator baseline" = "results/privacy-generator-baseline/report.md" },
+    { "Generator network control" = "results/privacy-generator-network/report.md" },
+    { "KERIA with SignifyPy" = "results/privacy-keria-baseline/report.md" },
+    { "Countermeasure sweeps" = "results/privacy-sweeps/README.md" },
+  ] },
+  { "Suite" = [
+    { "Test plan" = "test-plan.md" },
+    { "Scenario set" = "scenario-proposal.md" },
+    { "Writing an adapter" = "adapters.md" },
+    { "The site" = "site.md" },
+  ] },
+]
+
+[project.validation]
+invalid_links = true
+
+[project.theme]
+language = "en"
+features = [
+  "content.code.copy",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.top",
+  "search.highlight",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "custom"
+accent = "custom"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to light mode"
+
+# Deliberately few extensions, as on the conformance suite's site: one that gives meaning to another
+# character (magiclink, emoji, caret, tilde, smartsymbols) would change how a committed report reads.
+[project.markdown_extensions]
+admonition = {}
+attr_list = {}
+tables = {}
+toc.permalink = true
+pymdownx.highlight.anchor_linenums = true
+pymdownx.superfences = {}
