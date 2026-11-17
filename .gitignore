@@ -13,8 +13,16 @@ __pycache__/
 .coverage.*
 .pytest_cache/
 .ruff_cache/
-# Run output directories, unless a run is deliberately committed under results/
+# Run output directories, wherever kpa run --out puts them, except the committed sweep runs under
+# results/ (this.i 9jmmwx2c). An unanchored runs/ once matched results/privacy-sweeps/runs/ too,
+# so those runs were silently left out of the commit that published them.
 runs/
+!/results/**/runs/
+# ...and of those, only each run's results and reports; its raw exports stay out (9jmmwx2c).
+/results/**/runs/*/*
+!/results/**/runs/*/results.json
+!/results/**/runs/*/report.md
+!/results/**/runs/*/report.json
 
 # The documentation site: its assembled source and the built HTML (scripts/site-source,
 # zensical.toml). Both are generated at build time and never committed.
