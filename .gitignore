@@ -15,3 +15,7 @@ __pycache__/
 .ruff_cache/
 # Run output directories, unless a run is deliberately committed under results/
 runs/
+
+# The documentation site: its assembled source and the built HTML (scripts/site-source,
+# zensical.toml). Both are generated at build time and never committed.
+_site/

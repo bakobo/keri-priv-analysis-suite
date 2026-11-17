@@ -8,6 +8,8 @@ Measures what a KERI/ACDC deployment lets each adversary join about a citizen, o
 
 The intentions behind it are in [`this.i`](this.i), the approved test plan in [`docs/test-plan.md`](docs/test-plan.md), and the adapter interface in [`docs/adapters.md`](docs/adapters.md). The [scored findings](docs/privacy-findings.md) link to the generator and KERIA run evidence.
 
+All of this, with the scored reports, is published at <https://bakobo.github.io/keri-priv-analysis-suite/>; [`docs/site.md`](docs/site.md) says how the site is built.
+
 ## Fresh clone to passing tests
 
 You need [uv](https://docs.astral.sh/uv/) and the system libsodium (`sudo apt-get install libsodium23` on Debian and Ubuntu), which keripy loads.
@@ -37,6 +39,7 @@ The run directory holds the scenario, the compartments every attack read, the gr
 - `src/keri_priv_analysis/data/catalogue.toml`: which attacks answer each of the five correlation vectors, each predicted finding and each countermeasure, plus the non-claims and the gaps still open.
 - `adapters/keria/`: KERIA agents driven by SignifyPy, its own uv project with its pins in `manifest.toml` and `uv.lock`. Its tests run the adapter contract suite against its stack live. See its README, and [`docs/adapters.md`](docs/adapters.md) to write another.
 - `results/`: the scored generator and KERIA runs and the generator's countermeasure sweeps.
+- `tools/site_source.py`, `scripts/site-source` and `zensical.toml`: the documentation site's build; see [`docs/site.md`](docs/site.md).
 
 ## License
 
