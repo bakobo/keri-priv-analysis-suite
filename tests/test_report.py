@@ -116,7 +116,7 @@ def test_a_run_with_no_failing_claim_has_no_failures_section(tmp_path):
     results = copy.deepcopy(RESULTS)
     results["claims"] = [c for c in results["claims"] if c["verdict"] != "fail"]
     text, _ = _write(tmp_path, results)
-    assert "## Failures" not in text and "## Claims" in text
+    assert "## Why claims fail" not in text and "## Claims" in text
 
 
 def test_report_states_adapter_measurement_limits(tmp_path):
