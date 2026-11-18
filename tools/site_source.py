@@ -332,8 +332,9 @@ def _scenarios(repo: Path) -> dict[str, str]:
     found = {}
     for path in paths:
         relative = path.relative_to(repo).as_posix()
-        # A link would hash, and publish a link to, bytes outside the repository.
-        if path.is_symlink():
+        # A link anywhere in the path, at the file or at a directory the glob walked into, would
+        # hash, and publish a link to, bytes outside the repository.
+        if path.resolve() != repo.resolve() / relative:
             raise SITE_LINK(where=relative, url=relative, path=relative)
         found[hashlib.sha256(path.read_bytes()).hexdigest()] = relative
     return found

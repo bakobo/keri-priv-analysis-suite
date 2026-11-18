@@ -322,6 +322,23 @@ def test_a_scenario_that_is_a_symbolic_link_is_refused(tmp_path):
     assert err.value.code == site_source.SITE_LINK.code
 
 
+@pytest.mark.parametrize("where", ["scenarios", "results/sweep/scenarios"])
+def test_a_scenario_under_a_symlinked_directory_is_refused(tmp_path, where):
+    """The glob walks into a linked directory, so a link anywhere in the path is refused, not
+    only one at the file (review on #11)."""
+    import shutil
+
+    repo = _repo(tmp_path)
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    (outside / "x.toml").write_text("secret = 1\n")
+    shutil.rmtree(repo / where)
+    (repo / where).symlink_to(outside)
+    with pytest.raises(BakoboError) as err:
+        site_source._scenarios(repo)
+    assert err.value.code == site_source.SITE_LINK.code
+
+
 def test_assemble_replaces_its_own_earlier_output(tmp_path):
     repo = _repo(tmp_path)
     out = tmp_path / "out"
