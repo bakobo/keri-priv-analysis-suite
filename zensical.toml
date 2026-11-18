@@ -24,12 +24,17 @@ extra_javascript = ["javascripts/external-links.js"]
 site_dir = "_site/html"
 nav = [
   { "Home" = "index.md" },
-  { "Results" = [
-    { "Scored findings" = "privacy-findings.md" },
-    { "Generator baseline" = "results/privacy-generator-baseline/report.md" },
-    { "Generator network control" = "results/privacy-generator-network/report.md" },
-    { "KERIA with SignifyPy" = "results/privacy-keria-baseline/report.md" },
-    { "Countermeasure sweeps" = "results/privacy-sweeps/README.md" },
+  { "Findings" = [
+    { "What the runs found" = "privacy-findings.md" },
+    { "Reading a report" = "reading-a-report.md" },
+    { "Glossary" = "glossary.md" },
+    { "Attacks" = "attacks.md" },
+  ] },
+  { "Reports" = [
+    { "Design model" = "results/privacy-generator-baseline/report.md" },
+    { "Design model with cloud wallets" = "results/privacy-generator-network/report.md" },
+    { "KERIA" = "results/privacy-keria-baseline/report.md" },
+    { "Countermeasure sweep" = "results/privacy-sweeps/README.md" },
   ] },
   { "Suite" = [
     { "Test plan" = "test-plan.md" },
