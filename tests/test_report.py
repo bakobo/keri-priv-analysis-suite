@@ -158,8 +158,9 @@ def test_an_absent_compartment_and_an_unexported_one_read_differently():
 def test_an_unknown_compartment_status_is_named_not_dropped():
     line = report._summary_line("verifiers", _party(compartments={
         "public": "present", "verifier:clinic": "lost"}), [])
-    assert ("The adapter could not export the clinic's records (status 'lost'), so what they "
-            "hold is not measured") in line
+    assert ("These have a status the adapter contract does not define, so nothing from them "
+            "was read: the clinic's records ('lost').") in line
+    assert "could not export" not in line
 
 
 def test_a_complete_record_says_whether_it_is_proven():
