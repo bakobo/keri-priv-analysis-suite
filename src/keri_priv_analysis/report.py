@@ -1,8 +1,9 @@
 """The report, generated from a run directory's results.json and nothing else.
 
-It states joins, bits, completeness and cost, names an owner for every failing claim, and ends
-with the non-claims. It never says "unlinkable" (this.i 8q5ylk4q); write() refuses to emit a
-report that does.
+It says first, in plain words, what each adversary learns, then each claim as a sentence, then
+the cause and owner of every failing claim, and ends with the non-claims. Every party, attack and
+column is named in words and linked to its explanation (explain.py, this.i 6r9sjucj). It never
+says "unlinkable" (this.i 8q5ylk4q); write() refuses to emit a report that does.
 """
 
 from __future__ import annotations
@@ -12,7 +13,7 @@ import re
 import statistics
 from pathlib import Path
 
-from . import errors
+from . import errors, explain
 from .catalogue import gaps, non_claims
 
 FORBIDDEN = re.compile(r"unlinkab", re.IGNORECASE)
@@ -90,71 +91,127 @@ def summarize(results: dict) -> dict:
             "gaps": gaps(), "non_claims": non_claims()}
 
 
+def _party_link(name: str) -> str:
+    title = explain.party_title(name)
+    heading = f"{title} ({name})" if title != name else name
+    return f"[{title}](#{explain.slug(heading)})"
+
+
+def _claim_sentence(c: dict) -> str:
+    return f"The party {explain.claim(c['metric'], c['op'], c['threshold'])}."
+
+
+def _complete(p: dict) -> str:
+    parts = [f"{c['complete']} of {p['citizens']} in {domain}"
+             for domain, c in p["completeness"].items() if c["complete"]]
+    return ("holds a complete record of some citizens' uses: " + ", ".join(parts)
+            if parts else "holds no citizen's complete record of any kind of use")
+
+
+def _summary_line(name: str, p: dict, claims: list[dict]) -> str:
+    verdicts = [c["verdict"] for c in claims if c["party"] == name]
+    tally = ", ".join(f"{verdicts.count(v)} {explain.verdict(v)}"
+                      for v in ("fail", "pass", "not-measured") if verdicts.count(v))
+    missing = [c for c, status in p["compartments"].items() if status != "present"]
+    line = (f"- {_party_link(name)}: {p['joins']} correlations, precision "
+            f"{_n(p['precision'])}")
+    if p["bound_joins"]:
+        line += (f", of which its accepted terms forbid {p['bound_joins']} and so are not counted "
+                 f"as harm (a breach would re-identify {p['breach_reidentified']})")
+    line += (f"; re-identifies {p['reidentified']} of {p['citizens']} citizens; attaches a legal "
+             f"identity to {p['identity_exposed']}; {_complete(p)}.")
+    if missing:
+        line += (" This stack does not have " + " or ".join(explain.compartment(c) for c in missing)
+                 + ", so the party was measured on the rest of what it would hold.")
+    return line + (f" Claims: {tally}." if tally else "")
+
+
 def render(summary: dict) -> str:
     prov = summary["provenance"]
-    out = ["# Privacy analysis report", ""]
+    T = explain.term
+    out = [f"# Privacy analysis: {prov['adapter']['name']} adapter", ""]
+    out += [("This report says what each adversary in one scenario could learn about simulated "
+             "citizens by correlating the data it holds, and whether each claim written before "
+             f"the run held. [How to read it]({explain.SITE}reading-a-report/), and the "
+             f"[glossary]({explain.SITE}glossary/) for any term."), ""]
     out += [(f"Scenario `{prov['scenario_sha256']}`, run on the {prov['adapter']['name']} adapter "
             f"with suite {prov['suite']} and keripy {prov['keripy']['version']} "
             f"({prov['keripy']['commit'] or 'commit unknown'}). The population has "
             f"{prov['population']['size']} rows (seed {prov['population']['seed']}, sha256 "
             f"`{prov['population']['sha256']}`)."), ""]
-    out += ["## Measurement limits", "",
-            *(f"- {item}" for item in summary["measurement_limits"]), ""]
-    out += ["## Claims", "", "| Party | Claim | Measured | Verdict |", "|---|---|---|---|"]
+    out += ["## What each adversary learns", "",
+            *(_summary_line(name, p, summary["claims"]) for name, p in summary["parties"].items()),
+            ""]
+    out += ["## Claims", "",
+            "Each claim was written into the scenario before the run.", "",
+            f"| Party | Claim | Measured | {T('verdict', 'Verdict')} |", "|---|---|---|---|"]
     for c in summary["claims"]:
-        out.append(f"| {c['party']} | {c['metric']} {c['op']} {_n(c['threshold'])} | "
-                   f"{_n(c['measured'])} | {c['verdict']} |")
+        out.append(f"| {_party_link(c['party'])} | {_claim_sentence(c)} | {_n(c['measured'])} | "
+                   f"{explain.verdict(c['verdict'])} |")
     failures = [c for c in summary["claims"] if c["verdict"] == "fail"]
     if failures:
-        out += ["", "## Failures", ""]
+        out += ["", "## Why claims fail", ""]
         for c in failures:
-            out.append(f"{c['party']}: {c['metric']} {c['op']} {_n(c['threshold'])} fails at "
-                       f"{_n(c['measured'])}.")
+            sentence = _claim_sentence(c)
+            out.append(f"{_party_link(c['party'])}. Claim: {sentence[0].lower()}{sentence[1:]} "
+                       f"It fails: measured {_n(c['measured'])}.")
+            out.append("")
             if not c["attacks"]:
                 out.append("No single attack fails it; the attacks fail it only in combination.")
             for a in c["attacks"]:
-                out.append(f"- {a['attack']} fails it alone. Cause: {a['cause'] or 'not stated by '
-                           'the adapter'}. Owner: {a['owner']}.")
+                out.append(f"- {explain.attack_link(a['attack'])} is enough on its own. Cause: "
+                           f"{a['cause'] or 'not stated by the adapter'}. Owner: {a['owner']}.")
             out.append("")
-    out += ["", "## Parties", ""]
+    out += ["", "## Measurement limits", "",
+            *(f"- {item}" for item in summary["measurement_limits"]), ""]
+    out += ["## Parties", ""]
     for name, p in summary["parties"].items():
-        out += [f"### {name} ({p['kind']})", ""]
-        held = ", ".join(f"{c} ({s})" if s != "present" else c
+        title = explain.party_title(name)
+        out += [f"### {title} ({name})" if title != name else f"### {name}", ""]
+        held = ", ".join(explain.compartment_link(c) + (f" ({explain.verdict(s)})"
+                                                       if s != "present" else "")
                          for c, s in p["compartments"].items())
-        out.append(f"Holds: {held}.")
-        for c, note in p["notes"].items():
-            out.append(f"- {c}: {note}")
-        out += ["", "| Attack | Joins | Precision | Certain | Re-identified alone |",
-                "|---|---|---|---|---|"]
+        out += [f"{explain.party_kind(p['kind'])} This party holds {held}.", ""]
+        if p["notes"]:
+            out += ["What the adapter put in each:", ""]
+            out += [f"- {explain.compartment(c)}: {note}" for c, note in p["notes"].items()]
+            out.append("")
+        out += [(f"| {T('attack', 'Attack')} | {T('correlation', 'Correlations')} | "
+                 f"{T('precision', 'Precision')} | {T('certain', 'Certain')} | "
+                 f"{T('reidentified', 'Re-identified alone')} |"), "|---|---|---|---|---|"]
         for a, r in p["attacks"].items():
+            link = explain.attack_link(a)
             if "not_measured" in r:
-                out.append(f"| {a} | not measured: needs {'; '.join(r['not_measured'])} | | | |")
+                lacking = "; ".join(explain.needs(item) for item in r["not_measured"])
+                out.append(f"| {link} | not measured: needs {lacking} | | | |")
             else:
                 joins = r["joins"] if r["joins"] or not r["observations"] else \
                     f"{r['observations']} observations"
-                out.append(f"| {a} | {joins} | {_n(r['precision'])} | "
+                out.append(f"| {link} | {joins} | {_n(r['precision'])} | "
                            f"{_n(r['certain_share'])} | {r['reidentified']} |")
         b = p["bits"]
-        out += ["", (f"All attacks together make {p['joins']} joins, precision "
-                f"{_n(p['precision'])}, recall {_n(p['recall'])}. Citizens at or above the "
-                f"re-identification threshold of {_n(b['threshold'])} bits: {p['reidentified']} "
-                f"of {p['citizens']};"
-                f" median {_n(b['median'])} bits, 90th percentile "
-                f"{_n(b['p90'])}, maximum {_n(b['max'])}.")]
+        out += ["", (f"All attacks together make {p['joins']} "
+                     f"{T('correlation', 'correlations')}, {T('precision', 'precision')} "
+                     f"{_n(p['precision'])}, {T('recall', 'recall')} {_n(p['recall'])}. "
+                     f"{T('reidentified', 'Re-identified')} citizens, those at or above "
+                     f"{_n(b['threshold'])} {T('bits', 'identifying bits')}: {p['reidentified']} "
+                     f"of {p['citizens']}; median {_n(b['median'])} bits, 90th percentile "
+                     f"{_n(b['p90'])}, maximum {_n(b['max'])}.")]
         if p["sensitive_exposed"]:
             attached = ", ".join(f"{a} ({n})" for a, n in sorted(p["sensitive_exposed"].items()))
             out.append(f"Sensitive attributes attached to re-identified citizens: {attached}.")
-        out.append(f"Citizens whose legal identity is joined to an identifier issued to them: "
+        out.append(f"Citizens whose legal identity it attaches to an identifier issued to them: "
                    f"{p['identity_exposed']}.")
         for domain, c in p["completeness"].items():
             flag = ""
             if c["flagged"]:
-                flag = (" Flagged: the party provably holds every event of some citizen in this "
-                        f"domain, and use {'is' if c['mandatory'] else 'is not'} mandatory.")
-            out.append(f"Completeness in {domain}: median {_n(c['median'])}; citizens with every "
-                       f"event in one cluster: {c['complete']}.{flag}")
-        out.append(f"Joins its accepted terms forbid: {p['bound_joins']}; a breach of those terms "
-                   f"would re-identify {p['breach_reidentified']}.")
+                flag = (" Flagged: the party can prove it holds every one of some citizen's uses "
+                        f"of this kind, and use {'is' if c['mandatory'] else 'is not'} mandatory.")
+            out.append(f"{T('completeness', 'Completeness')} in {domain}: median "
+                       f"{_n(c['median'])}; citizens with every use tied together: "
+                       f"{c['complete']}.{flag}")
+        out.append(f"Correlations its accepted terms forbid: {p['bound_joins']}; a breach of "
+                   f"those terms would re-identify {p['breach_reidentified']}.")
         out += [(f"Bits the protocol adds over the party's own context: median "
                 f"{_n(p['increment']['median'])}, maximum {_n(p['increment']['max'])}."), ""]
     out += ["## Attacks the catalogue does not yet make", "",

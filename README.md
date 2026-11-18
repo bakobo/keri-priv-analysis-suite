@@ -8,7 +8,7 @@ Measures what a KERI/ACDC deployment lets each adversary correlate about a citiz
 
 The intentions behind it are in [`this.i`](this.i), the approved test plan in [`docs/test-plan.md`](docs/test-plan.md), and the adapter interface in [`docs/adapters.md`](docs/adapters.md). The [scored findings](docs/privacy-findings.md) link to the generator and KERIA run evidence.
 
-All of this, with the scored reports, is published at <https://bakobo.github.io/keri-priv-analysis-suite/>; [`docs/site.md`](docs/site.md) says how the site is built.
+All of this, with the scored reports, is published at <https://bakobo.github.io/keri-priv-analysis-suite/>. Start with [what the runs found](docs/privacy-findings.md); [reading a report](docs/reading-a-report.md) and the [glossary](docs/glossary.md) explain the rest, and [`docs/site.md`](docs/site.md) says how the site is built.
 
 ## Fresh clone to passing tests
 
