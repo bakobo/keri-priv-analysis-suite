@@ -8,7 +8,7 @@ The report names the [adapter](glossary.md#adapter-and-generator) that produced 
 
 ## What each adversary learns
 
-One line per [party](glossary.md#party), in plain words. It gives how many [correlations](glossary.md#correlation) the party's attacks made and how many of them were right, how many citizens it can single out of the population, how many legal identities it can attach to what was issued, and for which kinds of credential use it holds a citizen's complete record. Read this section first. A party with confidentiality terms shows how many of its correlations the terms forbid. A party whose data the system under test does not have says so.
+One line per [party](glossary.md#party), in plain words. It gives how many [correlations](glossary.md#correlation) the party's attacks made and how many of them were right, how many citizens it can single out of the population, how many legal identities it can attach to what was issued, and for how many citizens it ties every use of one kind together. Proven means at least one of those records rests on certain correlations, so the party could prove that citizen's every use, and every non-use where use is mandatory; not proven means the record may rest on likelihood. Read this section first. A party with confidentiality terms shows how many of its correlations the terms forbid. A party says so when the system under test does not have some of its data, or when the adapter could not export it.
 
 ## Claims
 

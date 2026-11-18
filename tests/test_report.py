@@ -139,3 +139,35 @@ def test_verifier_bits_limit_is_in_every_report(tmp_path):
                 "presentation can carry a full birthDate (tick 6hat).")
     assert expected in summary["measurement_limits"]
     assert f"- {expected}" in text
+
+
+def _party(**overrides):
+    p = report.summarize(RESULTS)["parties"]["verifiers"]
+    return {**p, **overrides}
+
+
+def test_an_absent_compartment_and_an_unexported_one_read_differently():
+    line = report._summary_line("verifiers", _party(compartments={
+        "public": "present", "verifier:bar": "absent", "verifier:clinic": "not-measured"}), [])
+    assert "This stack does not have the bar's records" in line
+    assert ("The adapter could not export the clinic's records, so what they hold is not "
+            "measured") in line
+    assert "does not have the clinic's records" not in line
+
+
+def test_a_complete_record_says_whether_it_is_proven():
+    domains = {"alcohol": {"complete": 3, "flagged": True, "mandatory": True, "median": 1.0},
+               "pharmacy": {"complete": 2, "flagged": False, "mandatory": False, "median": 0.5}}
+    line = report._summary_line("verifiers", _party(completeness=domains), [])
+    assert "3 of 3 in alcohol, proven" in line
+    assert "2 of 3 in pharmacy, not proven" in line
+    none = {"alcohol": {"complete": 0, "flagged": False, "mandatory": True, "median": 0.0}}
+    assert "ties no citizen's uses of any kind all together" in report._summary_line(
+        "verifiers", _party(completeness=none), [])
+
+
+def test_a_claim_with_a_nonzero_threshold_reads_as_a_sentence():
+    claim = {"metric": "max_bits", "op": "<=", "threshold": 10.0}
+    assert report._claim_sentence(claim) == (
+        "For the party, the most identifying bits it gathers about any one simulated citizen is "
+        "at most 10.")
