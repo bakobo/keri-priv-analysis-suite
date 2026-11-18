@@ -30,6 +30,10 @@ uv run zensical build --clean --strict
 
 The site is then in `_site/html`, which `python3 -m http.server --directory _site/html` serves. Zensical is pre-1.0, so `pyproject.toml` pins it exactly and a newer version is adopted by changing the pin. Its only input is the plain markdown in `_site/src`, so replacing the generator means replacing `zensical.toml` and one build step.
 
+## Regenerating the reports
+
+When `kpa report` changes how a report reads, every committed report is regenerated from its `results.json` by calling `report.write` on each run directory under `results/`. Each run's `report.json` must come out unchanged, which shows that only the wording moved and no number did.
+
 ## Deployment
 
 `.github/workflows/pages.yml` runs on every push to `main`. Its build job holds a read-only token. Its deploy job holds the Pages and OIDC permissions and runs no repository code. CI's `site` job builds the same site on every pull request without deploying it, so a broken link fails the pull request rather than the deploy. Pages must be enabled in the repository's settings with GitHub Actions as its source. Otherwise the deploy job stops at its configuration check.
