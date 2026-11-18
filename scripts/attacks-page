@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+"""Write docs/attacks.md from the attack catalogue and its plain-language explanations
+(keri_priv_analysis.explain.attacks_page)."""
+
+import pathlib
+
+from keri_priv_analysis.explain import attacks_page
+
+if __name__ == "__main__":
+    target = pathlib.Path(__file__).resolve().parent.parent / "docs" / "attacks.md"
+    target.write_text(attacks_page())
+    print(f"wrote {target}")

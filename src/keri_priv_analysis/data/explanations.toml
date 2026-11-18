@@ -1,0 +1,234 @@
+# Plain-language explanations of everything a report names (this.i 6r9sjucj): each party kind,
+# each kind of compartment, each metric a claim can test, each attack, and each column of a
+# report's tables. kpa report and the documentation site both read this file, so a term is
+# explained once. tests/test_explain.py fails when the suite gains a party kind, compartment kind,
+# metric or attack that has no entry here.
+#
+# Write for a reader who was not in the design review and does not know KERI. Say what the thing
+# is, and for an attack, what it notices and why that ties a citizen's credentials together.
+# "Correlate" is the word for what an adversary does; the joins field and directory keep their
+# names as data.
+
+# Where the explanations are published. Reports link here, so a reader of a report on GitHub or
+# from a local run reaches the same definitions as a reader of the site.
+site = "https://bakobo.github.io/keri-priv-analysis-suite/"
+
+# Titles for the parties the approved scenarios use (docs/scenario-proposal.md). A party with no
+# entry is titled by its id.
+[party_titles]
+two-verifiers = "Two colluding verifiers"
+two-verifiers-terms = "Two colluding verifiers bound by confidentiality terms"
+many-verifiers = "Four colluding verifiers"
+many-verifiers-terms = "Four colluding verifiers bound by confidentiality terms"
+one-home-hacker = "A hacker who breaks into one issuing home"
+all-homes-hacker = "A hacker who breaks into every issuing home"
+one-home-with-verifiers = "A hacker in one issuing home, with the verifiers' records"
+all-homes-with-verifiers = "A hacker in every issuing home, with the verifiers' records"
+revocation-insider = "A malicious insider at the revocation authority"
+revocation-insider-with-verifiers = "A revocation insider, with the verifiers' records"
+registrar-insider = "A malicious insider at the Registrar"
+registrar-insider-with-verifiers = "A Registrar insider, with the verifiers' records"
+observer-insider = "A malicious insider at the Observer"
+observer-insider-with-verifiers = "An Observer insider, with the verifiers' records"
+compelled-home = "Another government office that compels one issuing home's records ten years on"
+compelled-home-with-verifiers = "A government office compelling one home's records, with the verifiers' records"
+registrar-observer-network = "A network observer at the Registrar and Observer"
+registrar-observer-with-verifiers = "A Registrar and Observer network observer, with the verifiers' records"
+hosted-agent-network = "A network observer at the hosted-agent service"
+hosted-agent-with-verifiers = "A hosted-agent network observer, with the verifiers' records"
+
+# What kind of adversary a party is.
+[party_kinds]
+colluding-verifier = "Businesses that check citizens' credentials, such as a liquor store or a pharmacy, and pool the records they kept of each presentation."
+hacker = "Someone who breaks into State systems and takes everything those systems hold."
+insider = "A State employee or contractor who misuses their access to one system."
+government = "Another part of government that compels the State to hand over records. Confidentiality terms a verifier accepted do not bind it."
+network-observer = "Someone who reads the access logs of the network services that credentials and wallets talk to."
+
+# Each compartment a party can hold: one body of stored data behind one access boundary
+# (this.i 9hztf0uy). `name` is what a report calls it and `about` is its hover text. An instance
+# kind's text may use {instance}; `alone` names the kind without an instance, as an attack's needs
+# do ("needs verifier").
+[compartments.public]
+name = "the public record"
+about = "Issuers' key event logs, credential registries' logs and published batches, which anyone can read."
+[compartments.orchestrator]
+name = "the orchestrator's store"
+about = "The store of the service that coordinates issuance across the issuing homes."
+[compartments.operation-log]
+name = "the issuer's operation log"
+about = "The issuer's durable log of issuance operations."
+[compartments.revocation-authority]
+name = "the revocation authority's records"
+about = "Which credential belongs to which registry, kept so that a credential can be revoked."
+[compartments.identity-proofing]
+name = "the identity-proofing records"
+about = "The records that tie a citizen's legal identity to what was issued to them."
+[compartments.verifier]
+name = "the {instance}'s records"
+alone = "a verifier's records"
+about = "The records a verifier kept of the presentations it received."
+[compartments.issuing-home]
+name = "issuing home {instance}"
+alone = "an issuing home"
+about = "One of the State's servers that issue credentials: its database and its logs."
+
+[compartments.access-log]
+alone = "an access log"
+[compartments.access-log.witness]
+name = "the witnesses' access log"
+about = "The State's witnesses receive and store the issuer's key events."
+[compartments.access-log.registrar]
+name = "the Registrar's access log"
+about = "The Registrar publishes credential registries' status."
+[compartments.access-log.observer]
+name = "the Observer's access log"
+about = "The Observer serves credential status to anyone who asks."
+[compartments.access-log.watcher]
+name = "a watcher's access log"
+about = "A watcher checks key event logs for duplicity."
+[compartments.access-log.holder-witness]
+name = "the holder witnesses' access log"
+about = "The witnesses that serve citizens' own identifiers."
+[compartments.access-log.mailbox]
+name = "the mailbox service's access log"
+about = "The mailbox service relays messages to citizens' wallets."
+[compartments.access-log.hosted-agent]
+name = "the hosted-agent service's access log"
+about = "The service that runs a cloud agent for each citizen's wallet."
+
+# Each metric a claim can test. `zero` completes the sentence "The party ..." for the claim
+# "metric <= 0", which every approved scenario uses; `noun` names the quantity for any other
+# threshold.
+[metrics.reidentified]
+zero = "re-identifies no simulated citizen, singling none out from the population"
+noun = "the number of simulated citizens it singles out from the population"
+[metrics.breach_reidentified]
+zero = "would re-identify no simulated citizen even if it broke the confidentiality terms it accepted"
+noun = "the number of simulated citizens it would re-identify by breaking its accepted terms"
+[metrics.flagged_domains]
+zero = "cannot prove, for any citizen, that it holds every one of that citizen's credential uses of some kind (every alcohol purchase, say)"
+noun = "the number of kinds of credential use for which it can prove it holds a citizen's every use"
+[metrics.identity_exposed]
+zero = "cannot attach any simulated citizen's legal identity to an identifier issued to them"
+noun = "the number of simulated citizens whose legal identity it attaches to an identifier issued to them"
+[metrics.max_bits]
+zero = "learns no identifying bits about any simulated citizen"
+noun = "the most identifying bits it gathers about any one simulated citizen"
+[metrics.median_bits]
+zero = "learns no identifying bits about the typical simulated citizen"
+noun = "the identifying bits it gathers about the typical (median) simulated citizen"
+[metrics.precision]
+zero = "makes no correct correlation"
+noun = "the share of its correlations that are correct"
+[metrics.certain_share]
+zero = "makes no correlation it can be certain of"
+noun = "the share of its correlations it can be certain of"
+[metrics.max_increment]
+zero = "learns nothing from the protocol beyond what its own context already tells it"
+noun = "the most identifying bits the protocol adds to what its own context already tells it"
+
+# How a claim's outcome reads.
+[verdicts]
+pass = "holds"
+fail = "fails"
+not-measured = "not measured"
+
+# The words a report uses in its tables and summaries, each with the glossary entry that explains
+# it. `hover` is shown when a reader points at the word.
+[terms.correlation]
+anchor = "correlation"
+hover = "A link an attack makes between two things it holds, such as two presentations, saying they belong to the same citizen."
+[terms.precision]
+anchor = "precision"
+hover = "Of the correlations an attack made, the share that are correct. 1 means none is wrong."
+[terms.certain]
+anchor = "certain"
+hover = "The share of an attack's correlations that rest on proof, such as a shared identifier, rather than on likelihood."
+[terms.recall]
+anchor = "recall"
+hover = "Of the correlations that could have been made, the share the attacks made."
+[terms.reidentified]
+anchor = "re-identified"
+hover = "A simulated citizen about whom the party gathers enough identifying bits to single them out of the whole population."
+[terms.bits]
+anchor = "identifying-bits"
+hover = "How much a party's correlated data narrows down who a citizen is. Each bit halves the number of people who fit."
+[terms.completeness]
+anchor = "completeness"
+hover = "The share of a citizen's uses of one kind (alcohol purchases, say) that the party has tied together."
+[terms.verdict]
+anchor = "claim-and-verdict"
+hover = "Whether the claim, written before the run, held: holds, fails, or not measured when the party lacked what the claim needs."
+[terms.compartment]
+anchor = "compartment"
+hover = "One body of stored data behind one access boundary, such as one verifier's records. Whoever gets past the boundary gets all of it."
+[terms.attack]
+anchor = "attack"
+hover = "One way of correlating. Each reads only what a party holds, and proves on a test setup that it can find a link before its silence counts."
+
+# Each attack in the catalogue (src/keri_priv_analysis/attacks/__init__.py): a short title and what
+# it notices, in plain words.
+[attacks.shared-registry]
+title = "Shared registry"
+summary = "Two presented credentials that point to the same registry, the public list that records whether each credential is still valid. An issuer that puts a citizen's credentials in one registry ties them together for anyone who reads it."
+[attacks.kel-anchor-adjacency]
+title = "Neighbouring issuance anchors"
+summary = "Each issuance is recorded in order in the issuer's public key event log. When one citizen's copies are issued one after another, their records sit next to each other, which ties them together."
+[attacks.registry-inception-adjacency]
+title = "Neighbouring registry creations"
+summary = "Registries created in a batch and handed out in order give one citizen registries created next to each other in the issuer's public log, which ties that citizen's credentials together."
+[attacks.timestamp-clustering]
+title = "Timestamp clustering"
+summary = "Every credential's registry entry carries the time it was issued, to the microsecond. One citizen's copies are issued milliseconds apart, so their times stand out as a cluster."
+[attacks.event-count-lockstep]
+title = "Registries that change together"
+summary = "Registries whose update counts rise together, because one citizen's registries are updated in the same step, are tied together by those counts alone."
+[attacks.shared-batch-root]
+title = "Shared batch commitment"
+summary = "When credentials are published in signed batches, two credentials under the same batch are tied together, and a batch that holds only one citizen's credentials gives them all away. Only the generator models batches today."
+[attacks.issuer-aid-bucket]
+title = "Which issuing home signed"
+summary = "A presentation shows which of the State's issuing homes signed it. That does not tie presentations together, but it narrows down who the citizen is by about log2 N bits for N homes, more if homes serve particular regions."
+[attacks.holder-infrastructure]
+title = "Shared wallet infrastructure"
+summary = "A fresh identifier per copy does not help when every copy's identifier is registered with the same mailbox and witnesses, from the same network address."
+[attacks.registry-reads]
+title = "Registry reads in access logs"
+summary = "The services that publish credential status log who asked about which registry, when, and from where. A wallet checking its own credentials from one address ties them together."
+[attacks.hosted-agent]
+title = "One hosted agent per citizen"
+summary = "A cloud agent that runs a citizen's wallet sees all of that citizen's traffic, so its host's logs tie together every identifier it serves."
+[attacks.verifier-probing]
+title = "Verifier probing"
+summary = "A verifier that polls the public registry feed itself learns when each registry first appeared. Registries that appeared together were issued together."
+[attacks.custodial-join]
+title = "Reading the State's stored map"
+summary = "The issuing home or revocation authority keeps a map from each credential to the citizen's identifier, and from there to a legal identity. Whoever holds it reads the correlation directly."
+[attacks.log-scan]
+title = "Correlations copied into logs"
+summary = "Logs that write two identifiers on one line, or tag related lines with one request or session id, tie together whatever they name. This attack searches every log a party holds."
+[attacks.holder-kel]
+title = "Shared delegator or witnesses"
+summary = "A verifier must read a holder identifier's key event log to check a presentation. Identifiers that name the same delegator, or the same witnesses, are tied together."
+[attacks.payload-invariance]
+title = "Values a fresh copy should not repeat"
+summary = "Presented credentials that share a value a fresh copy would make unique, such as a cloned block of attributes or a reused salt."
+[attacks.shared-holder]
+title = "One identifier for every copy"
+summary = "A wallet that presents every copy under the same identifier ties them all together. This is KERIA's ordinary usage."
+[attacks.agent-end-role]
+title = "Agent named in the holder's records"
+summary = "Checking a holder identifier tells the verifier which agent serves it. One agent serves all of a citizen's identifiers, so naming the same agent ties them together."
+[attacks.shared-anchor]
+title = "Recorded in one log entry"
+summary = "An issuer that records several of one citizen's registries or issuances in a single entry of its public log ties them together for everyone who reads it."
+[attacks.batch-order]
+title = "Order inside a published batch"
+summary = "A batch that mixes citizens but lists credentials in the order they were issued keeps each citizen's copies next to each other."
+[attacks.kel-first-seen]
+title = "First-seen times in the issuer's log"
+summary = "The issuer's public log carries the time each entry was first seen, from a server clock, untouched by any coarsening of the registry times. One citizen's issuances cluster in time."
+[attacks.witness-arrival]
+title = "When the witnesses received each entry"
+summary = "The State's witnesses log when each issuer log entry arrived. That clock time ties a citizen's issuances together even when the registry times are coarsened."
