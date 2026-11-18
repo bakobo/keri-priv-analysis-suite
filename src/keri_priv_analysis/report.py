@@ -98,21 +98,36 @@ def _party_link(name: str) -> str:
 
 
 def _claim_sentence(c: dict) -> str:
-    return f"The party {explain.claim(c['metric'], c['op'], c['threshold'])}."
+    """A claim as a sentence. A zero claim's text is a verb phrase ("re-identifies no one"); any
+    other is a quantity and a bound ("the most bits ... is at most 10")."""
+    phrase = explain.claim(c["metric"], c["op"], c["threshold"])
+    if c["op"] == "<=" and c["threshold"] == 0:
+        return f"The party {phrase}."
+    return f"For the party, {phrase}."
 
 
 def _complete(p: dict) -> str:
-    parts = [f"{c['complete']} of {p['citizens']} in {domain}"
+    """Citizens whose every use of a kind the party ties into one cluster. Proven means at least
+    one such citizen's cluster rests on certain correlations, which is what flags a domain; an
+    unproven one may rest on likelihood."""
+    parts = [f"{c['complete']} of {p['citizens']} in {domain}, "
+             f"{'proven' if c['flagged'] else 'not proven'}"
              for domain, c in p["completeness"].items() if c["complete"]]
-    return ("holds a complete record of some citizens' uses: " + ", ".join(parts)
-            if parts else "holds no citizen's complete record of any kind of use")
+    return ("ties all of some citizens' uses of a kind together: " + "; ".join(parts)
+            if parts else "ties no citizen's uses of any kind all together")
 
 
 def _summary_line(name: str, p: dict, claims: list[dict]) -> str:
     verdicts = [c["verdict"] for c in claims if c["party"] == name]
     tally = ", ".join(f"{verdicts.count(v)} {explain.verdict(v)}"
                       for v in ("fail", "pass", "not-measured") if verdicts.count(v))
-    missing = [c for c, status in p["compartments"].items() if status != "present"]
+    absent = [c for c, status in p["compartments"].items() if status == "absent"]
+    # Anything but present or absent was not read; a status the contract does not name is shown
+    # rather than dropped.
+    unexported = [explain.compartment(c)
+                  + ("" if status == "not-measured" else f" (status {status!r})")
+                  for c, status in p["compartments"].items()
+                  if status not in ("present", "absent")]
     line = (f"- {_party_link(name)}: {p['joins']} correlations, precision "
             f"{_n(p['precision'])}")
     if p["bound_joins"]:
@@ -120,9 +135,12 @@ def _summary_line(name: str, p: dict, claims: list[dict]) -> str:
                  f"as harm (a breach would re-identify {p['breach_reidentified']})")
     line += (f"; re-identifies {p['reidentified']} of {p['citizens']} citizens; attaches a legal "
              f"identity to {p['identity_exposed']}; {_complete(p)}.")
-    if missing:
-        line += (" This stack does not have " + " or ".join(explain.compartment(c) for c in missing)
+    if absent:
+        line += (" This stack does not have " + " or ".join(explain.compartment(c) for c in absent)
                  + ", so the party was measured on the rest of what it would hold.")
+    if unexported:
+        line += (" The adapter could not export " + " or ".join(unexported)
+                 + ", so what they hold is not measured.")
     return line + (f" Claims: {tally}." if tally else "")
 
 

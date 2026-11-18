@@ -6,8 +6,8 @@ Scenario `abababababababababababababababababababababababababababababababab`, run
 
 ## What each adversary learns
 
-- [verifiers](#verifiers): 3 correlations, precision 0.667, of which its accepted terms forbid 2 and so are not counted as harm (a breach would re-identify 3); re-identifies 1 of 3 citizens; attaches a legal identity to 1; holds a complete record of some citizens' uses: 1 of 3 in alcohol. This stack does not have the orchestrator's store, so the party was measured on the rest of what it would hold. Claims: 1 fails, 1 holds.
-- [hacker](#hacker): 3 correlations, precision not measured, of which its accepted terms forbid 2 and so are not counted as harm (a breach would re-identify 3); re-identifies 1 of 0 citizens; attaches a legal identity to 1; holds no citizen's complete record of any kind of use. Claims: 1 fails, 1 not measured.
+- [verifiers](#verifiers): 3 correlations, precision 0.667, of which its accepted terms forbid 2 and so are not counted as harm (a breach would re-identify 3); re-identifies 1 of 3 citizens; attaches a legal identity to 1; ties all of some citizens' uses of a kind together: 1 of 3 in alcohol, proven. This stack does not have the orchestrator's store, so the party was measured on the rest of what it would hold. Claims: 1 fails, 1 holds.
+- [hacker](#hacker): 3 correlations, precision not measured, of which its accepted terms forbid 2 and so are not counted as harm (a breach would re-identify 3); re-identifies 1 of 0 citizens; attaches a legal identity to 1; ties no citizen's uses of any kind all together. Claims: 1 fails, 1 not measured.
 
 ## Claims
 
@@ -16,9 +16,9 @@ Each claim was written into the scenario before the run.
 | Party | Claim | Measured | [Verdict](https://bakobo.github.io/keri-priv-analysis-suite/glossary/#claim-and-verdict "Whether the claim, written before the run, held: holds, fails, or not measured when the party lacked what the claim needs.") |
 |---|---|---|---|
 | [verifiers](#verifiers) | The party re-identifies no simulated citizen, singling none out from the population. | 1 | fails |
-| [verifiers](#verifiers) | The party the most identifying bits it gathers about any one simulated citizen is at most 10. | 4.322 | holds |
+| [verifiers](#verifiers) | For the party, the most identifying bits it gathers about any one simulated citizen is at most 10. | 4.322 | holds |
 | [hacker](#hacker) | The party cannot prove, for any citizen, that it holds every one of that citizen's credential uses of some kind (every alcohol purchase, say). | 1 | fails |
-| [hacker](#hacker) | The party the share of its correlations that are correct is at least 0.5. | not measured | not measured |
+| [hacker](#hacker) | For the party, the share of its correlations that are correct is at least 0.5. | not measured | not measured |
 
 ## Why claims fail
 

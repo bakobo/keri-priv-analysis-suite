@@ -329,8 +329,15 @@ _SCENARIO_HASH = re.compile(r"Scenario `([0-9a-f]{64})`")
 def _scenarios(repo: Path) -> dict[str, str]:
     """SHA-256 -> repository path of every committed scenario file."""
     paths = sorted(repo.glob("scenarios/*.toml")) + sorted(repo.glob("results/**/scenarios/*.toml"))
-    return {hashlib.sha256(p.read_bytes()).hexdigest(): p.relative_to(repo).as_posix()
-            for p in paths}
+    found = {}
+    for path in paths:
+        relative = path.relative_to(repo).as_posix()
+        # A link anywhere in the path, at the file or at a directory the glob walked into, would
+        # hash, and publish a link to, bytes outside the repository.
+        if path.resolve() != repo.resolve() / relative:
+            raise SITE_LINK(where=relative, url=relative, path=relative)
+        found[hashlib.sha256(path.read_bytes()).hexdigest()] = relative
+    return found
 
 
 def _link_scenarios(text: str, source: str, scenarios: dict[str, str]) -> str:
