@@ -21,6 +21,7 @@ version missed escaped backticks, indented fences, attr_list attributes and java
 """
 
 import argparse
+import hashlib
 import html.parser
 import os
 import posixpath
@@ -321,11 +322,35 @@ def _files(root: Path, repo: Path):
             yield path, relative
 
 
-def _publish(path: Path, source: str, target: str, out: Path, repo: Path) -> None:
+# A report names its scenario by SHA-256 (kpa report); the site links that hash to the file.
+_SCENARIO_HASH = re.compile(r"Scenario `([0-9a-f]{64})`")
+
+
+def _scenarios(repo: Path) -> dict[str, str]:
+    """SHA-256 -> repository path of every committed scenario file."""
+    paths = sorted(repo.glob("scenarios/*.toml")) + sorted(repo.glob("results/**/scenarios/*.toml"))
+    return {hashlib.sha256(p.read_bytes()).hexdigest(): p.relative_to(repo).as_posix()
+            for p in paths}
+
+
+def _link_scenarios(text: str, source: str, scenarios: dict[str, str]) -> str:
+    def link(match):
+        path = scenarios.get(match.group(1))
+        if path is None:
+            return match.group(0)
+        relative = posixpath.relpath(path, posixpath.dirname(source) or ".")
+        return f"Scenario [`{match.group(1)}`]({relative})"
+
+    return _SCENARIO_HASH.sub(link, text)
+
+
+def _publish(path: Path, source: str, target: str, out: Path, repo: Path,
+             scenarios: dict[str, str]) -> None:
     destination = out / target
     destination.parent.mkdir(parents=True, exist_ok=True)
     if path.suffix == ".md":
-        page = rewrite_links(path.read_text(encoding="utf-8"), source, target, repo)
+        text = _link_scenarios(path.read_text(encoding="utf-8"), source, scenarios)
+        page = rewrite_links(text, source, target, repo)
         check_markup(page, source)
         destination.write_text(page, encoding="utf-8")
         return
@@ -348,12 +373,13 @@ def assemble(repo, out) -> None:
         shutil.rmtree(out)
     out.mkdir(parents=True)
     (out / MARKER).write_text("Written by tools/site_source.py; safe to delete.\n")
+    scenarios = _scenarios(repo)
     for path, source in _files(docs, repo):
-        _publish(path, source, source[len("docs/"):], out, repo)
-    _publish(repo / "README.md", "README.md", "index.md", out, repo)
+        _publish(path, source, source[len("docs/"):], out, repo, scenarios)
+    _publish(repo / "README.md", "README.md", "index.md", out, repo, scenarios)
     for path, source in _files(repo / RESULTS_DIR, repo):
         if source.endswith(PUBLISHED_SUFFIXES):
-            _publish(path, source, source, out, repo)
+            _publish(path, source, source, out, repo, scenarios)
 
 
 class _UsageError(Exception):

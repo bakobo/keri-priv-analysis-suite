@@ -291,6 +291,26 @@ def test_assemble_lays_out_the_site_source(tmp_path):
     assert (out / "results/sweep/plot.png").read_bytes() == b"\x89PNG"
 
 
+def test_a_scenario_hash_in_a_report_links_to_the_scenario_file(tmp_path):
+    """A report names its scenario by SHA-256; the site links the hash to the committed file
+    with that hash, wherever it lives, and leaves a hash it cannot match alone."""
+    import hashlib
+
+    repo = _repo(tmp_path)
+    digest = hashlib.sha256((repo / "scenarios" / "smoke.toml").read_bytes()).hexdigest()
+    swept = hashlib.sha256((repo / "results" / "sweep" / "scenarios" / "a.toml").read_bytes())
+    (repo / "results" / "run-a" / "report.md").write_text(
+        f"Scenario `{digest}`, run.\n\nScenario `{swept.hexdigest()}`.\n\n"
+        f"Scenario `{'0' * 64}`.\n")
+    out = tmp_path / "out"
+    assemble(repo, out)
+    report = (out / "results/run-a/report.md").read_text()
+    assert f"Scenario [`{digest}`]({REPO_URL}/blob/main/scenarios/smoke.toml), run." in report
+    assert (f"[`{swept.hexdigest()}`]({REPO_URL}/blob/main/results/sweep/scenarios/a.toml)"
+            in report)
+    assert f"Scenario `{'0' * 64}`." in report
+
+
 def test_assemble_replaces_its_own_earlier_output(tmp_path):
     repo = _repo(tmp_path)
     out = tmp_path / "out"
