@@ -26,7 +26,7 @@ The adapter runs the driver as a child process (`uv run --project stack python -
 ## What it runs
 
 - Each issuing home is its own KERIA agency hosting one issuer agent, whose witnessless AID incepts one registry and issues every credential into it.
-- The citizens' hosted agents share one wallet agency, one agent per citizen. Each copy a citizen holds is issued to a fresh AID in that citizen's agent, which SignifyPy makes natural (one `identifiers().create` per copy). One AID per citizen would also be ordinary KERIA usage, but the suite's scenario model gives each presentation a fresh copy and has no attack that joins on a shared holder AID, so per-copy AIDs keep the measurement honest about what the remaining vectors leak.
+- The citizens' hosted agents share one wallet agency, one agent per citizen. Each copy a citizen holds is issued to a fresh AID in that citizen's agent, which SignifyPy makes natural (one `identifiers().create` per copy). One AID per citizen would also be ordinary KERIA usage, but the suite's scenario model gives each presentation a fresh copy and has no attack that correlates on a shared holder AID, so per-copy AIDs keep the measurement honest about what the remaining vectors leak.
 - Each verifier is its own agency with one agent.
 - Issuance is SignifyPy's ordinary flow: the issuer resolves the holder AID's agent OOBI, issues, sends an IPEX grant, and the holder admits. A presentation is the holder's IPEX grant to the verifier, which admits it.
 - The credential carries every attribute any of the scenario's presentations discloses. An IPEX grant presents the whole credential and KERIA has no selective disclosure in this flow, so the adapter refuses a scenario in which any presentation's `disclose` list names fewer than all of them.
@@ -55,7 +55,7 @@ Every log is what KERIA writes at INFO with request logging on (`--logrequests`)
 - `orchestrator`: KERIA has none; the issuer's Signify client drives issuance itself.
 - `operation-log`: KERIA keeps each agent's long-running operations in that host's own stores, so they belong to the host's compartment rather than to a separate log. The adapter does not export them.
 - `revocation-authority`: the issuer's own agent holds every credential it issued.
-- `identity-proofing`: KERIA has none, so no store joins a legal identity to an identifier.
+- `identity-proofing`: KERIA has none, so no store links a legal identity to an identifier.
 - `access-log:witness` and `access-log:holder-witness`: every AID is witnessless, so no witness runs.
 - `access-log:registrar`, `access-log:observer`, `access-log:watcher`: KERIA has no Registrar or Observer, and no watcher runs.
 - `access-log:mailbox`: KERIA agents are their own mailboxes; what a holder receives arrives at its hosted agent, whose log is `access-log:hosted-agent`.

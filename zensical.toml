@@ -12,7 +12,7 @@
 
 [project]
 site_name = "KERI privacy analysis suite"
-site_description = "What a KERI/ACDC deployment lets each adversary join about a citizen, measured on any implementation."
+site_description = "What a KERI/ACDC deployment lets each adversary correlate about a citizen, measured on any implementation."
 site_url = "https://bakobo.github.io/keri-priv-analysis-suite/"
 repo_url = "https://github.com/bakobo/keri-priv-analysis-suite"
 repo_name = "bakobo/keri-priv-analysis-suite"

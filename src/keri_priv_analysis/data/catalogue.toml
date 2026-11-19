@@ -3,7 +3,7 @@
 # keeps this file and the attacks' own declarations in step.
 
 # The five vectors: registry, timestamp, batch, AID and network-observation correlation.
-# The custodial join and the log scan read the State's stores, which hold every vector's material.
+# Reading the State's stored map (custodial-join) and the log scan read the State's stores, which hold every vector's material.
 [vectors]
 registry = ["shared-registry", "registry-inception-adjacency", "event-count-lockstep",
             "custodial-join", "log-scan", "payload-invariance", "shared-anchor"]
@@ -59,10 +59,10 @@ items = [
 [gaps]
 5sdj = "linkage across a credential's lifecycle: renewal, re-issuance, revocation cohorts and pool top-ups"
 63ga = "recovering undisclosed low-entropy attributes from a compact block's SAID when the block carries no salt"
-2mcg = "calibration of join confidence when citizens hold different numbers of copies"
+2mcg = "calibration of correlation confidence when citizens hold different numbers of copies"
 5aaa = "holder-side custodial stores: a mailbox's message store and a hosted agent's account database"
 3f3n = "discovery material inside presentations, such as OOBI paths that name a citizen's agent"
-5im4 = "timing joins between an asynchronous issuer's operation log and issuance anchors"
+5im4 = "timing correlations between an asynchronous issuer's operation log and issuance anchors"
 34kz = "truncated, re-encoded and split identifiers in logs"
 3ikg = "the sensitivity of bits to the population model's declared correlations"
 7pan = "active probing that needs a live stack, such as cache-warmth or response-timing oracles"

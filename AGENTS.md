@@ -1,10 +1,10 @@
 ## This repository
 
-`keri-priv-analysis-suite` measures what a KERI/ACDC deployment lets each adversary join about a citizen: an attack catalogue that reads only exported compartment contents, a scorer that reports identifying bits, precision and completeness per party, a synthetic generator that scores designs before they are built, and adapters that connect real stacks. It is incubating at Bakobo and is intended to be offered to the KERI Foundation.
+`keri-priv-analysis-suite` measures what a KERI/ACDC deployment lets each adversary correlate about a citizen: an attack catalogue that reads only exported compartment contents, a scorer that reports identifying bits, precision and completeness per party, a synthetic generator that scores designs before they are built, and adapters that connect real stacks. It is incubating at Bakobo and is intended to be offered to the KERI Foundation.
 
 Rules specific to this repo, on top of the standards below:
 
-- **Results never claim unlinkability.** They state joins, bits, precision and completeness, and a test fails any report containing "unlinkab".
+- **Results never claim unlinkability.** They state correlations, bits, precision and completeness, and a test fails any report containing "unlinkab".
 - **An attack's silence counts only after its controls pass.** Every attack has a positive control it must link and a negative control on which it scores at chance.
 - **Attacks read compartment contents only.** They never query a stack and never see ground truth; an adapter exports, attacks read.
 - **Claims and thresholds are written before a scored run.** A failed claim is a finding; never move a threshold to make a result pass.

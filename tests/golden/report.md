@@ -77,12 +77,12 @@ Bits the protocol adds over the party's own context: median 0, maximum 0.
 Silence on these channels is not a result. Each is tracked in this repository's tick ledger.
 
 - timestamps and nonces carried by the presentation protocol itself (tick 27nu)
-- calibration of join confidence when citizens hold different numbers of copies (tick 2mcg)
+- calibration of correlation confidence when citizens hold different numbers of copies (tick 2mcg)
 - truncated, re-encoded and split identifiers in logs (tick 34kz)
 - discovery material inside presentations, such as OOBI paths that name a citizen's agent (tick 3f3n)
 - the sensitivity of bits to the population model's declared correlations (tick 3ikg)
 - holder-side custodial stores: a mailbox's message store and a hosted agent's account database (tick 5aaa)
-- timing joins between an asynchronous issuer's operation log and issuance anchors (tick 5im4)
+- timing correlations between an asynchronous issuer's operation log and issuance anchors (tick 5im4)
 - linkage across a credential's lifecycle: renewal, re-issuance, revocation cohorts and pool top-ups (tick 5sdj)
 - recovering undisclosed low-entropy attributes from a compact block's SAID when the block carries no salt (tick 63ga)
 - attribute values a presentation's bytes carry beyond what it declares disclosed (tick 6hat)

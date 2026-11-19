@@ -1,7 +1,7 @@
 [project]
 name = "keri-priv-analysis-suite"
 version = "2026.10"
-description = "Measure what a KERI/ACDC deployment lets each adversary join about a citizen, on any implementation."
+description = "Measure what a KERI/ACDC deployment lets each adversary correlate about a citizen, on any implementation."
 readme = "README.md"
 requires-python = ">=3.14"
 license = { text = "Apache-2.0" }
