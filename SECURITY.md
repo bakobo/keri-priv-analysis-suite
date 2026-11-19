@@ -25,11 +25,11 @@ Bakobo is a small company. These are commitments about *responsiveness*, not a g
 
 ## Scope
 
-This repository is responsible for the analysis suite: the scenario loader, the scorer, the attack catalogue, the synthetic generator, the contract suite, the adapters it hosts, and the report. An attack that reports no link where its vector leaks, a scorer that understates what a party can join, or a report that can be made to show a pass it did not measure is in scope here.
+This repository is responsible for the analysis suite: the scenario loader, the scorer, the attack catalogue, the synthetic generator, the contract suite, the adapters it hosts, and the report. An attack that reports no link where its vector leaks, a scorer that understates what a party can correlate, or a report that can be made to show a pass it did not measure is in scope here.
 
 A vulnerability in a stack under measurement, such as KERIA, SignifyPy or keripy, belongs to that project. Report it to them, not to us.
 
-**Results can disclose vulnerabilities.** A scored report names what a party can join and which component causes it. A result that exposes an exploitable defect in a deployed system, beyond the privacy properties the suite measures, should go to that system's maintainers privately first, and to us through the channels above. We hold such a result out of the public tree until the affected project has had a chance to ship a fix, on the same 90-day default described below.
+**Results can disclose vulnerabilities.** A scored report names what a party can correlate and which component causes it. A result that exposes an exploitable defect in a deployed system, beyond the privacy properties the suite measures, should go to that system's maintainers privately first, and to us through the channels above. We hold such a result out of the public tree until the affected project has had a chance to ship a fix, on the same 90-day default described below.
 
 A vulnerability in a dependency should go to that project, not to us. If you are not sure which side of the line something falls on, report it here and we will route it — that is our job, not yours.
 

@@ -122,12 +122,10 @@ def _summary_line(name: str, p: dict, claims: list[dict]) -> str:
     tally = ", ".join(f"{verdicts.count(v)} {explain.verdict(v)}"
                       for v in ("fail", "pass", "not-measured") if verdicts.count(v))
     absent = [c for c, status in p["compartments"].items() if status == "absent"]
-    # Anything but present or absent was not read; a status the contract does not name is shown
-    # rather than dropped.
-    unexported = [explain.compartment(c)
-                  + ("" if status == "not-measured" else f" (status {status!r})")
-                  for c, status in p["compartments"].items()
-                  if status not in ("present", "absent")]
+    unexported = [c for c, status in p["compartments"].items() if status == "not-measured"]
+    # A status the adapter contract does not define is shown, without guessing what it means.
+    unknown = [f"{explain.compartment(c)} ({status!r})" for c, status in p["compartments"].items()
+               if status not in ("present", "absent", "not-measured")]
     line = (f"- {_party_link(name)}: {p['joins']} correlations, precision "
             f"{_n(p['precision'])}")
     if p["bound_joins"]:
@@ -139,8 +137,12 @@ def _summary_line(name: str, p: dict, claims: list[dict]) -> str:
         line += (" This stack does not have " + " or ".join(explain.compartment(c) for c in absent)
                  + ", so the party was measured on the rest of what it would hold.")
     if unexported:
-        line += (" The adapter could not export " + " or ".join(unexported)
+        line += (" The adapter could not export "
+                 + " or ".join(explain.compartment(c) for c in unexported)
                  + ", so what they hold is not measured.")
+    if unknown:
+        line += (" These have a status the adapter contract does not define, so nothing from them "
+                 "was read: " + "; ".join(unknown) + ".")
     return line + (f" Claims: {tally}." if tally else "")
 
 
